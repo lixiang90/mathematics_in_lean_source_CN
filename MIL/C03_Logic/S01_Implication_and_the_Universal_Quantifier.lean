@@ -7,44 +7,41 @@ namespace C03S01
 /- TEXT:
 .. _implication_and_the_universal_quantifier:
 
-Implication and the Universal Quantifier
+蕴含和全称量词
 ----------------------------------------
 
-Consider the statement after the ``#check``:
+请看 ``#check`` 后面的语句：
 TEXT. -/
 -- QUOTE:
 #check ∀ x : ℝ, 0 ≤ x → |x| = x
 -- QUOTE.
 
 /- TEXT:
-In words, we would say "for every real number ``x``, if ``0 ≤ x`` then
-the absolute value of ``x`` equals ``x``".
-We can also have more complicated statements like:
+自然语言表述为 "对于每个实数 ``x``, 若 ``0 ≤ x``, 则 
+``x`` 的绝对值等于 ``x``".
+我们还可以有更复杂的语句，例如：
 TEXT. -/
 -- QUOTE:
 #check ∀ x y ε : ℝ, 0 < ε → ε ≤ 1 → |x| < ε → |y| < ε → |x * y| < ε
 -- QUOTE.
 
 /- TEXT:
-In words, we would say "for every ``x``, ``y``, and ``ε``,
-if ``0 < ε ≤ 1``, the absolute value of ``x`` is less than ``ε``,
-and the absolute value of ``y`` is less than ``ε``,
-then the absolute value of ``x * y`` is less than ``ε``."
-In Lean, in a sequence of implications there are
-implicit parentheses grouped to the right.
-So the expression above means
-"if ``0 < ε`` then if ``ε ≤ 1`` then if ``|x| < ε`` ..."
-As a result, the expression says that all the
-assumptions together imply the conclusion.
+自然语言表述为 "对于任意的 ``x``, ``y``, 以及 ``ε``,
+若 ``0 < ε ≤ 1``, ``x`` 的绝对值小于 ``ε``, 
+且 ``y`` 的绝对值小于 ``ε``,
+则 ``x * y`` 的绝对值小于 ``ε``."
+在Lean中，一连串的蕴含中有隐含的右结合括号。
+所以上述表达式的意思是
+"若 ``0 < ε``, 则若 ``ε ≤ 1``, 则若 ``|x| < ε`` ..."
+因此，表达式表示所有假设组合在一起导出结论。
 
-You have already seen that even though the universal quantifier
-in this statement
-ranges over objects and the implication arrows introduce hypotheses,
-Lean treats the two in very similar ways.
-In particular, if you have proved a theorem of that form,
-you can apply it to objects and hypotheses in the same way.
-We will use as an example the following statement that we will help you to prove a
-bit later:
+你已经看到，
+尽管这个语句中全称量词的取值范围是对象，
+而蕴涵箭头引入的是假设，
+但Lean处理这两者的方式非常相似。
+特别地，如果你已经证明了这种形式的定理，
+你就可以用同样的方法把它应用于对象和假设。
+我们将以下面的语句为例，稍后我们会帮你证明它：
 TEXT. -/
 -- QUOTE:
 theorem my_lemma : ∀ x y ε : ℝ, 0 < ε → ε ≤ 1 → |x| < ε → |y| < ε → |x * y| < ε :=
@@ -63,11 +60,11 @@ end
 -- QUOTE.
 
 /- TEXT:
-You have also already seen that it is common in Lean
-to use curly brackets to make quantified variables implicit
-when they can be inferred from subsequent hypotheses.
-When we do that, we can just apply a lemma to the hypotheses without
-mentioning the objects.
+你也已经看到，在Lean中，当量化变量可以从后面的假设中推断出来时，
+使用大括号将其隐去是很常见的。
+当我们这样做的时候，
+我们就可以直接将引理应用到假设中，
+而无需提及对象。
 TEXT. -/
 -- QUOTE:
 theorem my_lemma2 : ∀ {x y ε : ℝ}, 0 < ε → ε ≤ 1 → |x| < ε → |y| < ε → |x * y| < ε :=
@@ -84,16 +81,14 @@ end
 -- QUOTE.
 
 /- TEXT:
-At this stage, you also know that if you use
-the ``apply`` tactic to apply ``my_lemma``
-to a goal of the form ``|a * b| < δ``,
-you are left with new goals that require you to  prove
-each of the hypotheses.
+在当前阶段，你也知道如果你使用 ``apply`` 
+策略将 ``my_lemma`` 应用于形如 ``|a * b| < δ`` 的目标，
+就会留下一些新的目标，它们要求你证明引理的每个假设。
 
 .. index:: intro, tactics; intro
 
-To prove a statement like this, use the ``intro`` tactic.
-Take a look at what it does in this example:
+要证明与此类似的语句，需使用 ``intro`` 策略。
+在这个例子中观察一下该策略做了什么：
 TEXT. -/
 -- QUOTE:
 theorem my_lemma3 :
@@ -103,22 +98,17 @@ theorem my_lemma3 :
 -- QUOTE.
 
 /- TEXT:
-We can use any names we want for the universally quantified variables;
-they do not have to be ``x``, ``y``, and ``ε``.
-Notice that we have to introduce the variables
-even though they are marked implicit:
-making them implicit means that we leave them out when
-we write an expression *using* ``my_lemma``,
-but they are still an essential part of the statement
-that we are proving.
-After the ``intro`` command,
-the goal is what it would have been at the start if we
-listed all the variables and hypotheses *before* the colon,
-as we did in the last section.
-In a moment, we will see why it is sometimes necessary to
-introduce variables and hypotheses after the proof begins.
+我们可以对全称量化变量使用任何我们想用的名字；
+并非一定要是 ``x``, ``y`` 和 ``ε``.
+注意我们必须引入变量，即使它们被标记为隐式的：
+让它们隐去的意思是当我们 *使用* ``my_lemma`` 写一个表达式时不写它们，
+但它们仍然是我们要证明的语句的重要组成部分。
+在 ``intro`` 命令之后，
+如果我们在冒号 *之前* 列出所有变量和假设，目标就会和开始时一样，
+就像我们在上一节中做的那样。
+稍后，我们将看到为什么有时候有必要在证明开始之后引入变量和假设。
 
-To help you prove the lemma, we will start you off:
+为了帮你证明这个引理，我们会给你开个头：
 TEXT. -/
 -- QUOTE:
 -- BOTH:
@@ -141,25 +131,20 @@ SOLUTIONS: -/
 -- QUOTE.
 
 /- TEXT:
-Finish the proof using the theorems
-``abs_mul``, ``mul_le_mul``, ``abs_nonneg``,
-``mul_lt_mul_right``, and ``one_mul``.
-Remember that you can find theorems like these using
-Ctrl-space completion (or Cmd-space completion on a Mac).
-Remember also that you can use ``.mp`` and ``.mpr``
-or ``.1`` and ``.2`` to extract the two directions
-of an if-and-only-if statement.
+使用定理 ``abs_mul``, ``mul_le_mul``, ``abs_nonneg``,
+``mul_lt_mul_right`` 和 ``one_mul`` 完成证明。
+记住你可以使用Ctrl-space补全（或者，在Mac中，Cmd-space补全）找到像这样的定理。
+也记住你可以使用 ``.mp`` 和 ``.mpr``
+或者 ``.1`` 和 ``.2`` 来提取一个当且仅当语句的两个方向。
 
-Universal quantifiers are often hidden in definitions,
-and Lean will unfold definitions to expose them when necessary.
-For example, let's define two predicates,
-``FnUb f a`` and ``FnLb f a``,
-where ``f`` is a function from the real numbers to the real
-numbers and ``a`` is a real number.
-The first says that ``a`` is an upper bound on the
-values of ``f``,
-and the second says that ``a`` is a lower bound
-on the values of ``f``.
+全称量词通常隐藏在定义中，
+Lean 会在必要时展开定义以暴露它们。
+例如，让我们定义两个谓词，
+``FnUb f a`` 和 ``FnLb f a``,
+其中 ``f`` 是一个从实数到实数的函数，
+而 ``a`` 是一个实数。
+第一个谓词是说 ``a`` 是 ``f`` 的值的一个上界，
+而第二个是说 ``a`` 是 ``f`` 的值的一个下界。
 BOTH: -/
 -- QUOTE:
 def FnUb (f : ℝ → ℝ) (a : ℝ) : Prop :=
@@ -172,9 +157,9 @@ def FnLb (f : ℝ → ℝ) (a : ℝ) : Prop :=
 /- TEXT:
 .. index:: lambda abstraction
 
-In the next example, ``fun x ↦ f x + g x`` is the
-function that maps ``x`` to ``f x + g x``. Going from the expression ``f x + g x``
-to this function is called a lambda abstraction in type theory.
+在下一个例子中， ``fun x ↦ f x + g x`` 是把 ``x`` 映射到 `` f x + g x`` 的函数。
+从表达式 ``f x + g x`` 到这个函数，
+在类型论中称为lambda抽象。
 BOTH: -/
 section
 variable (f g : ℝ → ℝ) (a b : ℝ)
@@ -192,27 +177,23 @@ example (hfa : FnUb f a) (hgb : FnUb g b) : FnUb (fun x ↦ f x + g x) (a + b) :
 /- TEXT:
 .. index:: dsimp, tactics ; dsimp, change, tactics ; change
 
-Applying ``intro`` to the goal ``FnUb (fun x ↦ f x + g x) (a + b)``
-forces Lean to unfold the definition of ``FnUb``
-and introduce ``x`` for the universal quantifier.
-The goal is then ``(fun (x : ℝ) ↦ f x + g x) x ≤ a + b``.
-But applying ``(fun x ↦ f x + g x)`` to ``x`` should result in ``f x + g x``,
-and the ``dsimp`` command performs that simplification.
-(The "d" stands for "definitional.")
-You can delete that command and the proof still works;
-Lean would have to perform that contraction anyhow to make
-sense of the next ``apply``.
-The ``dsimp`` command simply makes the goal more readable
-and helps us figure out what to do next.
-Another option is to use the ``change`` tactic
-by writing ``change f x + g x ≤ a + b``.
-This helps make the proof more readable,
-and gives you more control over how the goal is transformed.
+把 ``intro`` 应用于目标 ``FnUb (fun x ↦ f x + g x) (a + b)`` 
+迫使 Lean 展开 ``FnUb`` 的定义并引入 ``x`` 作为全称量词。
+此时目标为 ``(fun (x : ℝ) ↦ f x + g x) x ≤ a + b``.
+但在 ``(fun x ↦ f x + g x)`` 上取值 ``x`` 的结果应该是 ``f x + g x``,
+而 ``dsimp`` 命令执行了这个简化。
+（其中 "d" 是指 "定义性的"）
+你可以删除这个命令，证明仍然有效；
+Lean将不得不执行那个化简，才能使下一个 ``apply`` 有意义。
+``dsimp`` 命令只是让目标更可读，并帮我们弄清楚下一步要做什么。
+另一种选择是通过输入 ``change f x + g x ≤ a + b`` 
+来使用 ``change`` 策略。 
+这有助于提高证明的可读性，
+并让你对目标的转换方式有更多的控制。
 
-The rest of the proof is routine.
-The last two ``apply`` commands force Lean to unfold the definitions
-of ``FnUb`` in the hypotheses.
-Try carrying out similar proofs of these:
+证明的其余部分都是例行公事。
+最后两条 ``apply`` 命令迫使 Lean 展开假设中 ``FnUb`` 的定义。
+请尝试进行类似的证明：
 TEXT. -/
 -- QUOTE:
 example (hfa : FnLb f a) (hgb : FnLb g b) : FnLb (fun x ↦ f x + g x) (a + b) :=
@@ -252,19 +233,15 @@ example (hfa : FnUb f a) (hgb : FnUb g b) (nng : FnLb g 0) (nna : 0 ≤ a) :
 end
 
 /- TEXT:
-Even though we have defined ``FnUb`` and ``FnLb`` for functions
-from the reals to the reals,
-you should recognize that the definitions and proofs are much
-more general.
-The definitions make sense for functions between any two types
-for which there is a notion of order on the codomain.
-Checking the type of the theorem ``add_le_add`` shows that it holds
-of any structure that is an "ordered additive commutative monoid";
-the details of what that means don't matter now,
-but it is worth knowing that the natural numbers, integers, rationals,
-and real numbers are all instances.
-So if we prove the theorem ``fnUb_add`` at that level of generality,
-it will apply in all these instances.
+虽然我们已对从实数到实数的函数定义了 ``FnUb`` 和 ``FnLb``,
+你应该认识到，这些定义和证明远比这更一般。
+这定义对任何两个类型之间的函数有意义，只要值域上有序的概念。
+检查定理 ``add_le_add`` 的类型，
+发现它对任何是"有序加法交换幺半群"的结构成立；
+这个名词的详细含义目前无关紧要，
+但值得注意的是自然数、整数、有理数和实数都属于这种情况。
+因此，如果我们在如此的广义水平上证明了定理 ``fnUb_add``,
+那么它将可用于所有这些实例中。
 TEXT. -/
 section
 -- QUOTE:
@@ -282,19 +259,17 @@ theorem fnUb_add {f g : α → R} {a b : R} (hfa : FnUb' f a) (hgb : FnUb' g b) 
 end
 
 /- TEXT:
-You have already seen square brackets like these in
-Section :numref:`proving_identities_in_algebraic_structures`,
-though we still haven't explained what they mean.
-For concreteness, we will stick to the real numbers
-for most of our examples,
-but it is worth knowing that Mathlib contains definitions and theorems
-that work at a high level of generality.
+你在
+Section :numref:`proving_identities_in_algebraic_structures` 中已经看到过像这样的方括号，
+但我们仍未解释它们是什么含义。
+为了具体性，在我们的大多数例子中，我们专注于实数，
+但值得注意的是，Mathlib包含一些具有很高通用性的定义和定理。
 
 .. index:: monotone function
 
-For another example of a hidden universal quantifier,
-Mathlib defines a predicate ``Monotone``,
-which says that a function is nondecreasing in its arguments:
+再举一个隐藏全称量词的例子， 
+Mathlib 定义了一个谓词 ``Monotone``,
+表示函数相对于参数是非递减的：
 TEXT. -/
 -- QUOTE:
 example (f : ℝ → ℝ) (h : Monotone f) : ∀ {a b}, a ≤ b → f a ≤ f b :=
@@ -302,20 +277,14 @@ example (f : ℝ → ℝ) (h : Monotone f) : ∀ {a b}, a ≤ b → f a ≤ f b 
 -- QUOTE.
 
 /- TEXT:
-The property ``Monotone f`` is defined to be exactly the expression
-after the colon. We need to put the ``@`` symbol before ``h`` because
-if we don't,
-Lean expands the implicit arguments to ``h`` and inserts placeholders.
+性质 ``Monotone f`` 的定义和冒号后的表达式精确相同。
+我们需要在 ``h`` 之前输入 ``@`` 符号，
+因为如果我们不这样做，
+Lean 会展开 ``h`` 的隐含参数并插入占位符。
 
-Proving statements about monotonicity
-involves using ``intro`` to introduce two variables,
-say, ``a`` and ``b``, and the hypothesis ``a ≤ b``.
-To *use* a monotonicity hypothesis,
-you can apply it to suitable arguments and hypotheses,
-and then apply the resulting expression to the goal.
-Or you can apply it to the goal and let Lean help you
-work backwards by displaying the remaining hypotheses
-as new subgoals.
+证明有关单调性的语句需要使用 ``intro`` 引入两个变量，例如 ``a`` 和 ``b``, 以及假设 ``a ≤ b``.
+要使用单调性假设，可以将其应用于合适的参数和假设，然后将得到的表达式应用于目标。
+或者，你也可以将它应用到目标上，然后让 Lean 通过将剩余的假设显示为新的子目标来帮助你向后工作。
 BOTH: -/
 section
 variable (f g : ℝ → ℝ)
@@ -330,19 +299,15 @@ example (mf : Monotone f) (mg : Monotone g) : Monotone fun x ↦ f x + g x := by
 -- QUOTE.
 
 /- TEXT:
-When a proof is this short, it is often convenient
-to give a proof term instead.
-To describe a proof that temporarily introduces objects
-``a`` and ``b`` and a hypothesis ``aleb``,
-Lean uses the notation ``fun a b aleb ↦ ...``.
-This is analogous to the way that an expression
-like ``fun x ↦ x^2`` describes a function
-by temporarily naming an object, ``x``,
-and then using it to describe a value.
-So the ``intro`` command in the previous proof
-corresponds to the lambda abstraction in the next proof term.
-The ``apply`` commands then correspond to building
-the application of the theorem to its arguments.
+当一个证明如此简短时，给出一个证明项往往更方便。
+描述一个临时引入对象 
+``a`` 和 ``b`` 以及假设 ``aleb`` 的证明时，
+Lean 使用符号 ``fun a b aleb ↦ ...``.
+这类似于用 ``fun x ↦ x^2`` 这样的表达式来描述一个函数时，
+先暂时命名一个对象 ``x``, 然后用它来描述函数的值。
+因此，上一个证明中的 ``intro`` 命令
+对应于下一个证明项中的 lambda 抽象。
+``apply`` 命令则对应于构建定理对其参数的应用。
 TEXT. -/
 -- QUOTE:
 example (mf : Monotone f) (mg : Monotone g) : Monotone fun x ↦ f x + g x :=
@@ -350,18 +315,13 @@ example (mf : Monotone f) (mg : Monotone g) : Monotone fun x ↦ f x + g x :=
 -- QUOTE.
 
 /- TEXT:
-Here is a useful trick: if you start writing
-the proof term ``fun a b aleb ↦ _`` using
-an underscore where the rest of the
-expression should go,
-Lean will flag an error,
-indicating that it can't guess the value of that expression.
-If you check the Lean Goal window in VS Code or
-hover over the squiggly error marker,
-Lean will show you the goal that the remaining
-expression has to solve.
+这里有一个有用的小窍门：如果在开始编写证明项 ``fun a b aleb ↦ _`` 时，
+在表达式的其余部分使用下划线，
+Lean 就会提示错误，表明它无法猜测该表达式的值。
+如果你检查VS Code中的 Lean 目标窗口或把鼠标悬停在标着波浪线的错误标识符上，
+Lean 会向你显示剩余的表达式需要解决的目标。
 
-Try proving these, with either tactics or proof terms:
+尝试证明它们，可以使用策略或证明项：
 TEXT. -/
 -- QUOTE:
 example {c : ℝ} (mf : Monotone f) (nnc : 0 ≤ c) : Monotone fun x ↦ c * f x :=
@@ -390,14 +350,12 @@ example (mf : Monotone f) (mg : Monotone g) : Monotone fun x ↦ f (g x) :=
   fun a b aleb ↦ mf (mg aleb)
 
 /- TEXT:
-Here are some more examples.
-A function :math:`f` from :math:`\Bbb R` to
-:math:`\Bbb R` is said to be *even* if
-:math:`f(-x) = f(x)` for every :math:`x`,
-and *odd* if :math:`f(-x) = -f(x)` for every :math:`x`.
-The following example defines these two notions formally
-and establishes one fact about them.
-You can complete the proofs of the others.
+这里是另一些例子。
+一个从 :math:`\Bbb R` 到 :math:`\Bbb R` 的函数 :math:`f` 
+称为 *偶函数*，如果对每个 :math:`x`, 有 :math:`f(-x) = f(x)`, 
+称为 *奇函数*，如果对每个 :math:`x`, 有 :math:`f(-x) = -f(x)`. 
+下面的例子形式化地定义了这两个概念，并确立了关于它们的一个事实。
+你可以完成其他事实的证明。
 TEXT. -/
 -- QUOTE:
 -- BOTH:
@@ -449,46 +407,37 @@ end
 /- TEXT:
 .. index:: erw, tactics ; erw
 
-The first proof can be shortened using ``dsimp`` or ``change``
-to get rid of the lambda abstraction.
-But you can check that the subsequent ``rw`` won't work
-unless we get rid of the lambda abstraction explicitly,
-because otherwise it cannot find the patterns ``f x`` and ``g x``
-in the expression.
-Contrary to some other tactics, ``rw`` operates on the syntactic level,
-it won't unfold definitions or apply reductions for you
-(it has a variant called ``erw`` that tries a little harder in this
-direction, but not much harder).
+通过使用 ``dsimp`` 或 ``change`` 消除lambda抽象，
+可以缩短第一个证明。
+但你可以验证，除非我们准确地消除lambda抽象，否则接下来的 ``rw`` 不会生效，
+因为此时它无法在表达式中找到样式 ``f x`` 和 ``g x``.
+和其他一些策略不同， ``rw`` 作用于语法层次，
+它不会为你展开定义或应用还原（它有一个变种称为 ``erw``, 在这个方向上会努力一点，但也不会努力太多）。
 
-You can find implicit universal quantifiers all over the place,
-once you know how to spot them.
+到处都能找到隐式全称量词，
+只要你知道如何发现它们。
 
-Mathlib includes a good library for manipulating sets. Recall that Lean does not
-use foundations based on set theory, so here the word set has its mundane meaning
-of a collection of mathematical objects of some given type ``α``.
-If ``x`` has type ``α`` and ``s`` has type ``Set α``, then ``x ∈ s`` is a proposition
-that asserts that ``x`` is an element of ``s``. If ``y`` has some different type ``β`` then the
-expression ``y ∈ s`` makes no sense. Here "makes no sense" means "has no type hence Lean does not
-accept it as a well-formed statement". This contrasts with Zermelo-Fraenkel set theory for instance
-where ``a ∈ b`` is a well-formed statement for every mathematical objects ``a`` and ``b``.
-For instance ``sin ∈ cos`` is a well-formed statement in ZF. This defect of set theoretic
-foundations is an important motivation for not using it in a proof assistant which is meant to assist
-us by detecting meaningless expressions. In Lean ``sin`` has type ``ℝ → ℝ`` and ``cos`` has type
-``ℝ → ℝ`` which is not equal to ``Set (ℝ → ℝ)``, even after unfolding definitions, so the statement
-``sin ∈ cos`` makes no sense.
-One can also use Lean to work on set theory itself. For instance the independence of the continuum
-hypothesis from the axioms of Zermelo-Fraenkel has been formalized in Lean. But such a meta-theory
-of set theory is completely beyond the scope of this book.
+Mathlib 包含一个用于操作集合的优秀的库。回想一下，Lean 并不使用基于集合论的基础，因此在这里，集合一词具有普通含义，即某个给定类型 ``α`` 的数学对象的汇集。
+如果 ``x`` 具有类型 ``α``, 而 ``s`` 具有类型 ``Set α``, 则 ``x ∈ s`` 是一个命题，
+它断言 ``x`` 是 ``s`` 的一个元素。若 ``y`` 具有另一个类型 ``β`` 则表达式 ``y ∈ s`` 无意义。这里 "无意义" 的含义是 "没有类型因此 Lean 不认可它是一个良好形式的语句"。
+这与 Zermelo-Fraenkel 集合论不同，
+例如其中对于每个数学对象 ``a`` 和 ``b``, ``a∈b`` 都是良好形式的语句。
+例如， ``sin ∈ cos`` 是 ZF 中一个格式良好的语句。
+集合论基础的这一缺陷是证明助手中不使用它的一个重要原因，因为证明助手的目的是帮助我们检出无意义的表达式。在 Lean 中， ``sin`` 具有类型 ``ℝ → ℝ``, 而 ``cos`` 具有类型 ``ℝ → ℝ``, 
+它不等于 ``Set (ℝ → ℝ)``, 即使在展开定义以后也不相等，因此语句 ``sin ∈ cos`` 无意义。
+我们还可以利用 Lean 来研究集合论本身。
+例如，连续统假设与 Zermelo-Fraenkel 公理的独立性就在 Lean 中得到了形式化。
+但这种集合论的元理论完全超出了本书的范围。
 
-If ``s`` and ``t`` are of type ``Set α``,
-then the subset relation ``s ⊆ t`` is defined to mean
+若 ``s`` 和 ``t`` 具有类型 ``Set α``,
+那么子集关系 ``s ⊆ t`` 被定义为
 ``∀ {x : α}, x ∈ s → x ∈ t``.
-The variable in the quantifier is marked implicit so that
-given ``h : s ⊆ t`` and ``h' : x ∈ s``,
-we can write ``h h'`` as justification for ``x ∈ t``.
-The following example provides a tactic proof and a proof term
-justifying the reflexivity of the subset relation,
-and asks you to do the same for transitivity.
+量词中的变量被标记为隐式，
+因此给出 ``h : s ⊆ t`` 和 ``h' : x ∈ s``,
+我们可以把 ``h h'`` 作为 ``x ∈ t`` 的证明。
+下面的例子提供了一个策略证明和一个证明项，
+证明了子集关系的反身性，
+并要求你对传递性做同样的证明。
 TEXT. -/
 -- BOTH:
 section
@@ -521,14 +470,12 @@ theorem Subset.transαα : r ⊆ s → s ⊆ t → r ⊆ t :=
 end
 
 /- TEXT:
-Just as we defined ``FnUb`` for functions,
-we can define ``SetUb s a`` to mean that ``a``
-is an upper bound on the set ``s``,
-assuming ``s`` is a set of elements of some type that
-has an order associated with it.
-In the next example, we ask you to prove that
-if ``a`` is a bound on ``s`` and ``a ≤ b``,
-then ``b`` is a bound on ``s`` as well.
+就像我们对函数定义了 ``FnUb`` 一样，
+假设 ``s`` 是一个由某类型的元素组成的集合，且它具有一个与之关联的序。
+我们可以定义 ``SetUb s a``, 意为 ``a`` 是集合 ``s`` 的一个上界。
+在下一个例子中，我们要求你证明，
+如果 ``a`` 是 ``s`` 的一个上界，且 ``a ≤ b``,
+则 ``b`` 也是 ``s`` 的一个上界。
 TEXT. -/
 -- BOTH:
 section
@@ -558,18 +505,14 @@ end
 /- TEXT:
 .. index:: injective function
 
-We close this section with one last important example.
-A function :math:`f` is said to be *injective* if for
-every :math:`x_1` and :math:`x_2`,
-if :math:`f(x_1) = f(x_2)` then :math:`x_1 = x_2`.
-Mathlib defines ``Function.Injective f`` with
-``x₁`` and ``x₂`` implicit.
-The next example shows that, on the real numbers,
-any function that adds a constant is injective.
-We then ask you to show that multiplication by a nonzero
-constant is also injective, using the lemma name in the example as a source
-of inspiration. Recall you should use Ctrl-space completion after guessing the beginning of
-a lemma name.
+最后，我们以一个重要的例子来结束本节。
+函数 :math:`f` 称为 *单射*, 若对每个 :math:`x_1` 和 :math:`x_2`,
+如果 :math:`f(x_1) = f(x_2)`, 那么 :math:`x_1 = x_2`.
+Mathlib定义了 ``Function.Injective f``, 其中 ``x₁`` 和 ``x₂`` 是隐含的。
+下一个例子表明，在实数上，任何由自变量加上非零常数得到的函数都是单射。
+然后，我们要求您利用示例中的引理名称作为灵感来源，
+证明非零常数乘法也是单射的。
+请记住，在猜出一个引理名称的开头后，应使用 Ctrl-space 补全。
 TEXT. -/
 -- BOTH:
 section
@@ -592,7 +535,7 @@ example {c : ℝ} (h : c ≠ 0) : Injective fun x ↦ c * x := by
   apply (mul_right_inj' h).mp h'
 
 /- TEXT:
-Finally, show that the composition of two injective functions is injective:
+最后，证明两个单射函数的复合是单射：
 BOTH: -/
 -- QUOTE:
 variable {α : Type*} {β : Type*} {γ : Type*}
