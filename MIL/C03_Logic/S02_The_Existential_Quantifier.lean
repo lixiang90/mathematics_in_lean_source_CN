@@ -417,7 +417,7 @@ example {f : ℝ → ℝ} (h : Surjective f) : ∃ x, f x ^ 2 = 4 := by
 end
 
 /- TEXT:
-看看你能否用这些方法证明满函数的复合是满的。
+看看你能否用这些方法证明满射函数的复合是满射。
 TEXT. -/
 -- BOTH:
 section
