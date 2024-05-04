@@ -273,8 +273,8 @@ theorem sumOfSquares_mul {x y : α} (sosx : SumOfSquares x) (sosy : SumOfSquares
 -- QUOTE.
 
 /- TEXT:
-这个证明本身并未提供太多启示，
-但有一种途径可以激发它。
+这个证明并未给出太多线索，
+但有一种方式可以提供证明思路。
 *高斯整数* 是形如 :math:`a + bi` 的数，
 其中 :math:`a` 和 :math:`b` 是整数，而 :math:`i = \sqrt{-1}`.
 根据定义，高斯整数 :math:`a + bi` 的 *范数* 是 :math:`a^2 + b^2`.
