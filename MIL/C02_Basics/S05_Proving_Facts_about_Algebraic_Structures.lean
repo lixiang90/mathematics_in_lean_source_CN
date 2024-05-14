@@ -35,7 +35,7 @@ variable (x y z : α)
 TEXT. -/
 -- QUOTE:
 #check x < y
-#check (lt_irrefl x : ¬x < x)
+#check (lt_irrefl x : ¬ (x < x))
 #check (lt_trans : x < y → y < z → x < z)
 #check (lt_of_le_of_lt : x ≤ y → y < z → x < z)
 #check (lt_of_lt_of_le : x < y → y ≤ z → x < z)
@@ -168,7 +168,7 @@ example : x ⊔ y ⊔ z = x ⊔ (y ⊔ z) := by
   apply le_sup_right
 
 /- TEXT:
-你可以在 Mathlib 中找到这些定理，它们分别是 ``inf_comm``、``inf_assoc``、``sup_comm`` 和 ``sup_assoc``. 
+你可以在 Mathlib 中找到这些定理，它们分别是 ``inf_comm``、``inf_assoc``、``sup_comm`` 和 ``sup_assoc``.
 
 另一个很好的练习是仅使用这些公理证明 *吸收律*：
 TEXT. -/
@@ -199,7 +199,7 @@ theorem absorb2αα : x ⊔ x ⊓ y = x := by
 end
 
 /- TEXT:
-这些定理可以在 Mathlib 中找到，其名称分别为 ``inf_sup_self`` 和 ``sup_inf_self``. 
+这些定理可以在 Mathlib 中找到，其名称分别为 ``inf_sup_self`` 和 ``sup_inf_self``.
 
 一个满足额外恒等式 ``x ⊓ (y ⊔ z) = (x ⊓ y) ⊔ (x ⊓ z)`` 和 ``x ⊔ (y ⊓ z) = (x ⊔ y) ⊓ (x ⊔ z)`` 的格，称为 *分配格*。Lean 也知道这些：
 TEXT. -/
@@ -210,7 +210,7 @@ variable {α : Type*} [DistribLattice α]
 variable (x y z : α)
 
 #check (inf_sup_left x y z : x ⊓ (y ⊔ z) = x ⊓ y ⊔ x ⊓ z)
-#check (inf_sup_right x y z : (x ⊔ y) ⊓ z = x ⊓ z ⊔ y ⊓ z) 
+#check (inf_sup_right x y z : (x ⊔ y) ⊓ z = x ⊓ z ⊔ y ⊓ z)
 #check (sup_inf_left x y z : x ⊔ y ⊓ z = (x ⊔ y) ⊓ (x ⊔ z))
 #check (sup_inf_right x y z : x ⊓ y ⊔ z = (x ⊔ z) ⊓ (y ⊔ z))
 -- QUOTE.
