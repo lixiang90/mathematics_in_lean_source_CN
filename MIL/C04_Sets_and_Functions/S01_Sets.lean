@@ -7,11 +7,12 @@ import MIL.Common
 /- TEXT:
 .. _sets:
 
-Sets
+集合
 ----
 
 .. index:: set operations
 
+若 ``α`` 是任意类型，则类型 ``Set α`` 由 ``α`` 中的元素组成的集合构成。
 If ``α`` is any type, the type ``Set α`` consists of sets
 of elements of ``α``.
 This type supports the usual set-theoretic operations and relations.
