@@ -13,37 +13,29 @@ import MIL.Common
 .. index:: set operations
 
 若 ``α`` 是任意类型，则类型 ``Set α`` 由 ``α`` 中的元素组成的集合构成。
-If ``α`` is any type, the type ``Set α`` consists of sets
-of elements of ``α``.
-This type supports the usual set-theoretic operations and relations.
-For example, ``s ⊆ t`` says that ``s`` is a subset of ``t``,
-``s ∩ t`` denotes the intersection of ``s`` and ``t``,
-and ``s ∪ t`` denotes their union.
-The subset relation can be typed with ``\ss`` or ``\sub``,
-intersection can be typed with ``\i`` or ``\cap``,
-and union can be typed with ``\un`` or ``\cup``.
-The library also defines the set ``univ``,
-which consists of all the elements of type ``α``,
-and the empty set, ``∅``, which can be typed as ``\empty``.
-Given ``x : α`` and ``s : Set α``,
-the expression ``x ∈ s`` says that ``x`` is a member of ``s``.
-Theorems that mention set membership often include ``mem``
-in their name.
-The expression ``x ∉ s`` abbreviates ``¬ x ∈ s``.
-You can type ``∈`` as ``\in`` or ``\mem`` and ``∉`` as ``\notin``.
+这一类型支持常规的集合论运算和关系。
+例如， ``s ⊆ t`` 是说 ``s`` 是 ``t`` 的子集，
+``s ∩ t`` 是指 ``s`` 和 ``t`` 的交集，
+而 ``s ∪ t`` 是指它们的并集。
+子集关系可以用 ``\ss`` 或 ``\sub`` 输入，
+交集可以用 ``\i`` 或 ``\cap`` 输入，
+并集可以用 ``\un`` 或 ``\cup`` 输入。
+库中也定义了集合 ``univ``,
+它包含类型 ``α`` 的全部元素，
+以及空集 ``∅``, 可以用 ``\empty`` 输入。
+给定 ``x : α`` 和 ``s : Set α``,
+表达式 ``x ∈ s`` 是说 ``x`` 是 ``s`` 的一个成员。
+提到集合成员关系的定理的名字经常含有 ``mem``.
+表达式 ``x ∉ s`` 是 ``¬ x ∈ s`` 的缩写。
+你可以用 ``\in`` 或 ``\mem`` 输入 ``∈``, 用 ``\notin`` 输入 ``∉``.
 
 .. index:: simp, tactics ; simp
 
-One way to prove things about sets is to use ``rw``
-or the simplifier to expand the definitions.
-In the second example below, we use ``simp only``
-to tell the simplifier to use only the list
-of identities we give it,
-and not its full database of identities.
-Unlike ``rw``, ``simp`` can perform simplifications
-inside a universal or existential quantifier.
-If you step through the proof,
-you can see the effects of these commands.
+证明关于集合的事情的一种方法是使用 ``rw`` 或化简器来展开定义。
+在下面的第二个例子中， 我们使用 ``simp only`` 告诉化简器只使用我们给它的列表中的等式，
+而不是整个数据库中的等式。
+不同于 ``rw``, ``simp`` 可以在全称或存在量词内实施化简。
+如果你逐步查看证明，你可以看到这些命令的效果。
 TEXT. -/
 -- BOTH:
 section
@@ -67,10 +59,8 @@ example (h : s ⊆ t) : s ∩ u ⊆ t ∩ u := by
 -- QUOTE.
 
 /- TEXT:
-In this example, we open the ``set`` namespace to have
-access to the shorter names for the theorems.
-But, in fact, we can delete the calls to ``rw`` and ``simp``
-entirely:
+在这个例子中，我们开启了 ``Set`` 名字空间以用更短的定理名访问定理。
+但事实上，我们可以完全删除 ``rw`` 和 ``simp`` 的调用：
 TEXT. -/
 -- QUOTE:
 example (h : s ⊆ t) : s ∩ u ⊆ t ∩ u := by
@@ -79,10 +69,9 @@ example (h : s ⊆ t) : s ∩ u ⊆ t ∩ u := by
 -- QUOTE.
 
 /- TEXT:
-What is going on here is known as *definitional reduction*:
-to make sense of the ``intro`` command and the anonymous constructors
-Lean is forced to expand the definitions.
-The following example also illustrate the phenomenon:
+这里发生的事情被称为 *定义约化*：为了理解 ``intro`` 命令和匿名构造函数，
+Lean 不得不展开定义。
+下面的例子也说明了这一现象：
 TEXT. -/
 -- QUOTE:
 example (h : s ⊆ t) : s ∩ u ⊆ t ∩ u :=
@@ -90,9 +79,9 @@ example (h : s ⊆ t) : s ∩ u ⊆ t ∩ u :=
 -- QUOTE.
 
 /- TEXT:
-To deal with unions, we can use ``Set.union_def`` and ``Set.mem_union``.
-Since ``x ∈ s ∪ t`` unfolds to ``x ∈ s ∨ x ∈ t``,
-we can also use the ``cases`` tactic to force a definitional reduction.
+为了处理并集，我们可以使用 ``Set.union_def`` 和 ``Set.mem_union``.
+由于 ``x ∈ s ∪ t`` 展开为 ``x ∈ s ∨ x ∈ t``,
+我们也可以使用 ``cases`` 策略强制要求定义约化。
 TEXT. -/
 -- QUOTE:
 example : s ∩ (t ∪ u) ⊆ s ∩ t ∪ s ∩ u := by
@@ -109,10 +98,10 @@ example : s ∩ (t ∪ u) ⊆ s ∩ t ∪ s ∩ u := by
 -- QUOTE.
 
 /- TEXT:
-Since intersection binds tighter than union,
-the use of parentheses in the expression ``(s ∩ t) ∪ (s ∩ u)``
-is unnecessary, but they make the meaning of the expression clearer.
-The following is a shorter proof of the same fact:
+由于交集比联合更紧密，
+表达式 ``(s ∩ t) ∪ (s ∩ u)`` 中使用括号是不必要的，
+但它们使表达式的含义更清晰。
+下面是对同一事实更简短的证明：
 TEXT. -/
 -- QUOTE:
 example : s ∩ (t ∪ u) ⊆ s ∩ t ∪ s ∩ u := by
@@ -122,7 +111,7 @@ example : s ∩ (t ∪ u) ⊆ s ∩ t ∪ s ∩ u := by
 -- QUOTE.
 
 /- TEXT:
-As an exercise, try proving the other inclusion:
+作为练习，试着证明另一方向的包含关系：
 BOTH: -/
 -- QUOTE:
 example : s ∩ t ∪ s ∩ u ⊆ s ∩ (t ∪ u) := by
@@ -136,19 +125,15 @@ SOLUTIONS: -/
 
 -- BOTH:
 /- TEXT:
-It might help to know that when using ``rintro``,
-sometimes we need to use parentheses around a disjunctive pattern
-``h1 | h2`` to get Lean to parse it correctly.
+知道以下事实可能有帮助：当使用 ``rintro`` 时，
+有时我们需要使用括号包围析取模式 ``h1 | h2`` 使得 Lean 能正确解析它。
 
-The library also defines set difference, ``s \ t``,
-where the backslash is a special unicode character
-entered as ``\\``.
-The expression ``x ∈ s \ t`` expands to ``x ∈ s ∧ x ∉ t``.
-(The ``∉`` can be entered as ``\notin``.)
-It can be rewritten manually using ``Set.diff_eq`` and ``dsimp``
-or ``Set.mem_diff``,
-but the following two proofs of the same inclusion
-show how to avoid using them.
+库里也定义了集合的差， ``s \ t``,
+其中反斜线是以 ``\\`` 输入的特殊unicode字符。
+表达式 ``x ∈ s \ t`` 展开为 ``x ∈ s ∧ x ∉ t``.
+（ ``∉`` 可以用 ``\notin`` 输入。）
+可以使用 ``Set.diff_eq`` 和 ``dsimp`` 或 ``Set.mem_diff`` 手动重写它，
+而下面对同一个包含关系的两个证明展示了如何避免使用它们。
 TEXT. -/
 -- QUOTE:
 example : (s \ t) \ u ⊆ s \ (t ∪ u) := by
@@ -171,7 +156,7 @@ example : (s \ t) \ u ⊆ s \ (t ∪ u) := by
 -- QUOTE.
 
 /- TEXT:
-As an exercise, prove the reverse inclusion:
+作为练习，证明反向的包含关系：
 BOTH: -/
 -- QUOTE:
 example : s \ (t ∪ u) ⊆ (s \ t) \ u := by
@@ -189,12 +174,10 @@ SOLUTIONS: -/
 
 -- BOTH:
 /- TEXT:
-To prove that two sets are equal,
-it suffices to show that every element of one is an element
-of the other.
-This principle is known as "extensionality,"
-and, unsurprisingly,
-the ``ext`` tactic is equipped to handle it.
+要证明两个集合相等，
+只需证明任一集合中的每个元素都是另一个集合中的元素。
+这个原理称为“外延性”，毫不意外的是，
+``ext`` 策略可以用于处理它。
 TEXT. -/
 -- QUOTE:
 example : s ∩ t = t ∩ s := by
@@ -206,10 +189,8 @@ example : s ∩ t = t ∩ s := by
 -- QUOTE.
 
 /- TEXT:
-Once again, deleting the line ``simp only [mem_inter_iff]``
-does not harm the proof.
-In fact, if you like inscrutable proof terms,
-the following one-line proof is for you:
+再次重申，删除 ``simp only [mem_inter_iff]`` 一行并不会损害证明。
+事实上，如果你喜欢高深莫测的证明项，下面的单行证明就是为你准备的：
 TEXT. -/
 -- QUOTE:
 example : s ∩ t = t ∩ s :=
@@ -217,18 +198,15 @@ example : s ∩ t = t ∩ s :=
 -- QUOTE.
 
 /- TEXT:
-Here is an even shorter proof,
-using the simplifier:
+这是一个更简短的证明，使用了化简器：
 TEXT. -/
 -- QUOTE:
 example : s ∩ t = t ∩ s := by ext x; simp [and_comm]
 -- QUOTE.
 
 /- TEXT:
-An alternative to using ``ext`` is to use
-the theorem ``Subset.antisymm``
-which allows us to prove an equation ``s = t``
-between sets by proving ``s ⊆ t`` and ``t ⊆ s``.
+除了使用 ``ext`` 之外，我们还可以使用 ``Subset.antisymm`` 这个定理，
+它可以通过证明 ``s ⊆ t`` 和 ``t ⊆ s`` 来证明集合间的等式 ``s = t``.
 TEXT. -/
 -- QUOTE:
 example : s ∩ t = t ∩ s := by
@@ -238,7 +216,7 @@ example : s ∩ t = t ∩ s := by
 -- QUOTE.
 
 /- TEXT:
-Try finishing this proof term:
+尝试完成证明项：
 BOTH: -/
 -- QUOTE:
 example : s ∩ t = t ∩ s :=
@@ -251,11 +229,11 @@ SOLUTIONS: -/
 
 -- BOTH:
 /- TEXT:
-Remember that you can replace `sorry` by an underscore,
-and when you hover over it,
-Lean will show you what it expects at that point.
+请记住，您可以用下划线代替 ``sorry``,
+并将鼠标悬停在它上面,
+Lean 会向你显示它在这一位置的预期。
 
-Here are some set-theoretic identities you might enjoy proving:
+下面是一些你可能会喜欢证明的集合论性质：
 TEXT. -/
 -- QUOTE:
 example : s ∩ (s ∪ t) = s := by
@@ -324,20 +302,16 @@ example : s \ t ∪ t \ s = (s ∪ t) \ (s ∩ t) := by
     constructor <;> assumption
 
 /- TEXT:
-When it comes to representing sets,
-here is what is going on underneath the hood.
-In type theory, a *property* or *predicate* on a type ``α``
-is just a function ``P : α → Prop``.
-This makes sense:
-given ``a : α``, ``P a`` is just the proposition
-that ``P`` holds of ``a``.
-In the library, ``Set α`` is defined to be ``α → Prop`` and ``x ∈ s`` is defined to be ``s x``.
-In other words, sets are really properties, treated as objects.
+说到集合的表示，下面就为大家揭秘背后的机制。
+在类型论中，类型 ``α`` 上的 *性质* 或 *谓词* 只是一个函数 ``P : α → Prop``.
+这是有意义的：给定 ``a : α``,  ``P a`` 就是 ``P`` 对 ``a`` 成立这一命题。
+在库中， ``Set α`` 定义为 ``α → Prop`` 而 ``x ∈ s`` 定义为 ``s x``.
+换句话说，集合实际上就是性质，只是被当成对象。
 
-The library also defines set-builder notation.
-The expression ``{ y | P y }`` unfolds to ``(fun y ↦ P y)``,
-so ``x ∈ { y | P y }`` reduces to ``P x``.
-So we can turn the property of being even into the set of even numbers:
+库中也定义了集合构造器的符号。
+表达式 ``{ y | P y }`` 展开就是 ``(fun y ↦ P y)``,
+因此 ``x ∈ { y | P y }`` 约化为 ``P x``.
+因此我们可以把偶数性质转化为偶数集合：
 TEXT. -/
 -- QUOTE:
 def evens : Set ℕ :=
