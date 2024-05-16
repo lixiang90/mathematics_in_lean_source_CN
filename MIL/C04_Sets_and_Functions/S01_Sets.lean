@@ -328,24 +328,23 @@ example : evens ∪ odds = univ := by
 -- QUOTE.
 
 /- TEXT:
-You should step through this proof and make sure
-you understand what is going on.
-Try deleting the line ``rw [evens, odds]``
-and confirm that the proof still works.
+你应该逐步跟踪这个证明，
+确定你明白发生了什么。
+尝试删除 ``rw [evens, odds]`` 这一行，
+确认证明仍然成立。
 
-In fact, set-builder notation is used to define
+事实上，集合构造器符号定义
 
-- ``s ∩ t`` as ``{x | x ∈ s ∧ x ∈ t}``,
-- ``s ∪ t`` as ``{x | x ∈ s ∨ x ∈ t}``,
-- ``∅`` as ``{x | False}``, and
-- ``univ`` as ``{x | True}``.
+- ``s ∩ t`` 为 ``{x | x ∈ s ∧ x ∈ t}``,
+- ``s ∪ t`` 为 ``{x | x ∈ s ∨ x ∈ t}``,
+- ``∅`` 为 ``{x | False}``, 以及
+- ``univ`` 为 ``{x | True}``.
 
-We often need to indicate the type of ``∅`` and ``univ``
-explicitly,
-because Lean has trouble guessing which ones we mean.
-The following examples show how Lean unfolds the last
-two definitions when needed. In the second one,
-``trivial`` is the canonical proof of ``True`` in the library.
+我们经常需要精确指定 ``∅`` 和 ``univ`` 的类型，
+因为 Lean 很难猜出我们指的是哪种类型。
+下面的例子演示了当需要的时候 Lean 如何展开最后两个定义。
+在第二个例子中，
+``trivial`` 是 库中对 ``True`` 的标准证明。
 TEXT. -/
 -- QUOTE:
 example (x : ℕ) (h : x ∈ (∅ : Set ℕ)) : False :=
@@ -356,12 +355,10 @@ example (x : ℕ) : x ∈ (univ : Set ℕ) :=
 -- QUOTE.
 
 /- TEXT:
-As an exercise, prove the following inclusion.
-Use ``intro n`` to unfold the definition of subset,
-and use the simplifier to reduce the
-set-theoretic constructions to logic.
-We also recommend using the theorems
-``Nat.Prime.eq_two_or_odd`` and ``Nat.even_iff``.
+作为练习，证明下列包含关系。
+使用 ``intro n`` 以展开子集定义，
+使用化简器把集合论构造约化为逻辑。
+我们也推荐使用定理 ``Nat.Prime.eq_two_or_odd`` 和 ``Nat.even_iff``.
 TEXT. -/
 -- QUOTE:
 example : { n | Nat.Prime n } ∩ { n | n > 2 } ⊆ { n | ¬Even n } := by
@@ -381,12 +378,11 @@ example : { n | Nat.Prime n } ∩ { n | n > 2 } ⊆ { n | ¬Even n } := by
   norm_num
 
 /- TEXT:
-Be careful: it is somewhat confusing that the library has multiple versions
-of the predicate ``Prime``.
-The most general one makes sense in any commutative monoid with a zero element.
-The predicate ``Nat.Prime`` is specific to the natural numbers.
-Fortunately, there is a theorem that says that in the specific case,
-the two notions agree, so you can always rewrite one to the other.
+请注意：有点令人困惑的是，库中有多个版本的谓词 ``Prime``.
+最通用的谓词对任何有零元素的交换幺半群都有意义。
+谓词 ``Nat.Prime`` 是针对自然数的。
+幸运的是，有一个定理指出，在特定情况下，
+这两个概念是一致的，所以你总是可以把一个谓词改写成另一个谓词。
 TEXT. -/
 -- QUOTE:
 #print Prime
@@ -404,7 +400,7 @@ example (n : ℕ) (h : Prime n) : Nat.Prime n := by
 /- TEXT:
 .. index:: rwa, tactics ; rwa
 
-The `rwa` tactic follows a rewrite with the assumption tactic.
+``rwa`` 策略是在重写后跟着一个假设策略。
 TEXT. -/
 -- QUOTE:
 example (n : ℕ) (h : Prime n) : Nat.Prime n := by
@@ -417,24 +413,19 @@ end
 /- TEXT:
 .. index:: bounded quantifiers
 
-Lean introduces the notation ``∀ x ∈ s, ...``,
-"for every ``x`` in ``s`` .,"
-as an abbreviation for  ``∀ x, x ∈ s → ...``.
-It also introduces the notation ``∃ x ∈ s, ...,``
-"there exists an ``x`` in ``s`` such that .."
-These are sometimes known as *bounded quantifiers*,
-because the construction serves to restrict their significance
-to the set ``s``.
-As a result, theorems in the library that make use of them
-often contain ``ball`` or ``bex`` in the name.
-The theorem ``bex_def`` asserts that ``∃ x ∈ s, ...`` is equivalent
-to ``∃ x, x ∈ s ∧ ...,``
-but when they are used with ``rintro``, ``use``,
-and anonymous constructors,
-these two expressions behave roughly the same.
-As a result, we usually don't need to use ``bex_def``
-to transform them explicitly.
-Here is are some examples of how they are used:
+Lean 引入了记号 ``∀ x ∈ s, ...``,
+"对于任意 ``x`` 属于 ``s`` .,"
+作为 ``∀ x, x ∈ s → ...`` 的简化。
+Lean 还引入了记号 ``∃ x ∈ s, ...,``
+"存在 ``x`` 属于 ``s`` 使得 .."
+有时它们被称为 *有界量词*,
+因为这种构造将它们的意义限制在集合 ``s`` 内。
+因此，库中使用这些量词的定理通常在名称中包含 ``ball`` 或 ``bex``.
+定理 ``bex_def`` 断言 ``∃ x ∈ s, ...`` 等价于 ``∃ x, x ∈ s ∧ ...,``
+但当它们和 ``rintro``, ``use`` 以及匿名构造器一起使用时，
+这两个表达式的行为大致相同。
+因此，我们通常不需要使用 ``bex_def`` 来精确转换它们。
+这是关于它们用法的一些例子：
 TEXT. -/
 -- BOTH:
 section
@@ -455,7 +446,7 @@ example (h : ∃ x ∈ s, ¬Even x ∧ Prime x) : ∃ x ∈ s, Prime x := by
 -- QUOTE.
 
 /- TEXT:
-See if you can prove these slight variations:
+看看你能否证明这些略有不同的版本：
 TEXT. -/
 -- QUOTE:
 section
@@ -490,17 +481,13 @@ end
 end
 
 /- TEXT:
-Indexed unions and intersections are
-another important set-theoretic construction.
-We can model a sequence :math:`A_0, A_1, A_2, \ldots` of sets of
-elements of ``α``
-as a function ``A : ℕ → Set α``,
-in which case ``⋃ i, A i`` denotes their union,
-and ``⋂ i, A i`` denotes their intersection.
-There is nothing special about the natural numbers here,
-so ``ℕ`` can be replaced by any type ``I``
-used to index the sets.
-The following illustrates their use.
+带下标的并集和交集是另一种重要的集合论构造。
+我们可以把 ``α`` 中的元素组成的集合的序列 :math:`A_0, A_1, A_2, \ldots`
+建模为函数 ``A : ℕ → Set α``,
+此时 ``⋃ i, A i`` 表示它们的并集，
+而 ``⋂ i, A i`` 表示它们的交集。
+这里自然数没有什么特别之处，因此 ``ℕ`` 可以替换为任意作为指标集的类型 ``I``.
+下面说明它们的用法。
 TEXT. -/
 -- BOTH:
 section
@@ -538,15 +525,12 @@ example : (⋂ i, A i ∩ B i) = (⋂ i, A i) ∩ ⋂ i, B i := by
 -- QUOTE.
 
 /- TEXT:
-Parentheses are often needed with an
-indexed union or intersection because,
-as with the quantifiers,
-the scope of the bound variable extends as far as it can.
+带下标的并集或交集通常需要使用括号，
+因为与量词一样，绑定变量的范围会尽可能地扩展。
 
-Try proving the following identity.
-One direction requires classical logic!
-We recommend using ``by_cases xs : x ∈ s``
-at an appropriate point in the proof.
+尝试证明下列恒等式。
+其中一个方向需要经典逻辑！
+我们建议在证明的适当位置使用 ``by_cases xs : x ∈ s``.
 TEXT. -/
 -- QUOTE:
 
@@ -577,12 +561,9 @@ example : (s ∪ ⋂ i, A i) = ⋂ i, A i ∪ s := by
   contradiction
 
 /- TEXT:
-Mathlib also has bounded unions and intersections,
-which are analogous to the bounded quantifiers.
-You can unpack their meaning with ``mem_iUnion₂``
-and ``mem_iInter₂``.
-As the following examples show,
-Lean's simplifier carries out these replacements as well.
+Mathlib 也有有界并集和有界交集，它们类似于有界量词。
+您可以使用 ``mem_iUnion₂`` 和 ``mem_iInter₂`` 揭示它们的含义。
+正如下面的示例所示，Lean 的化简器也可以执行这些替换。
 TEXT. -/
 -- QUOTE:
 -- BOTH:
@@ -607,11 +588,10 @@ example : (⋂ p ∈ primes, { x | ¬p ∣ x }) ⊆ { x | x = 1 } := by
 -- QUOTE.
 
 /- TEXT:
-Try solving the following example, which is similar.
-If you start typing ``eq_univ``,
-tab completion will tell you that ``apply eq_univ_of_forall``
-is a good way to start the proof.
-We also recommend using the theorem ``Nat.exists_infinite_primes``.
+试着解决下面这个类似的例子。
+如果你开始输入 ``eq_univ``,
+标签补全器会告诉你 ``apply eq_univ_of_forall`` 是开始证明的好方法。
+我们还推荐使用 ``Nat.exists_infinite_primes`` 定理。
 TEXT. -/
 -- QUOTE:
 example : (⋃ p ∈ primes, { x | x ≤ p }) = univ := by
@@ -630,14 +610,13 @@ example : (⋃ p ∈ primes, { x | x ≤ p }) = univ := by
 end
 
 /- TEXT:
-Give a collection of sets, ``s : Set (Set α)``,
-their union, ``⋃₀ s``, has type ``Set α``
-and is defined as ``{x | ∃ t ∈ s, x ∈ t}``.
-Similarly, their intersection, ``⋂₀ s``, is defined as
+给定一组集合 ``s : Set (Set α)``,
+它们的并集 ``⋃₀ s`` 具有类型 ``Set α``,
+定义为 ``{x | ∃ t ∈ s, x ∈ t}``.
+类似地，它们的交集 ``⋂₀ s`` 定义为
 ``{x | ∀ t ∈ s, x ∈ t}``.
-These operations are called ``sUnion`` and ``sInter``, respectively.
-The following examples show their relationship to bounded union
-and intersection.
+这些运算分别称为 ``sUnion`` 和 ``sInter``.
+下面的例子展示了它们与有界并集和有界交集的关系。
 TEXT. -/
 section
 
@@ -660,6 +639,5 @@ example : ⋂₀ s = ⋂ t ∈ s, t := by
 end
 
 /- TEXT:
-In the library, these identities are called
-``sUnion_eq_biUnion`` and ``sInter_eq_biInter``.
+在库中，这些恒等式称为 ``sUnion_eq_biUnion`` 和 ``sInter_eq_biInter``.
 TEXT. -/
