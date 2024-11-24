@@ -6,22 +6,17 @@ import MIL.Common
 /- TEXT:
 .. _proving_identities_in_algebraic_structures:
 
-Proving Identities in Algebraic Structures
+证明代数结构中的恒等式
 ------------------------------------------
 
 .. index:: ring (algebraic structure)
 
-Mathematically, a ring consists of a collection of objects,
-:math:`R`, operations :math:`+` :math:`\times`, and constants :math:`0`
-and :math:`1`, and an operation :math:`x \mapsto -x` such that:
+从数学上讲，一个环由一组对象 :math:`R`、运算 :math:`+`、:math:`\times` 和常数 :math:`0` 和 :math:`1`，以及一个操作 :math:`x \mapsto -x` 构成，且满足以下条件：
 
-* :math:`R` with :math:`+` is an *abelian group*, with :math:`0`
-  as the additive identity and negation as inverse.
-* Multiplication is associative with identity :math:`1`,
-  and multiplication distributes over addition.
+* :math:`R` 与 :math:`+` 构成一个 *阿贝尔群*，其中 :math:`0` 是加法单位元，负数是逆元。
+* 乘法是结合的，具有单位元 :math:`1`，并且乘法对加法满足分配律。
 
-In Lean, the collection of objects is represented as a *type*, ``R``.
-The ring axioms are as follows:
+在 Lean 中，对象的集合被表示为一个 *类型* ``R``. 环的公理如下：
 TEXT. -/
 section
 -- QUOTE:
@@ -41,44 +36,20 @@ variable (R : Type*) [Ring R]
 end
 
 /- TEXT:
-You will learn more about the square brackets in the first line later,
-but for the time being,
-suffice it to say that the declaration gives us a type, ``R``,
-and a ring structure on ``R``.
-Lean then allows us to use generic ring notation with elements of ``R``,
-and to make use of a library of theorems about rings.
+关于第一行中的方括号，你稍后会了解更多，但暂且可以说，这个声明给了我们一个类型 ``R``，以及 ``R`` 上的一个环结构。
+然后，Lean 允许我们使用一般的环定义以及 ``R`` 中的元素，并引用一个关于环的定理库。
 
-The names of some of the theorems should look familiar:
-they are exactly the ones we used to calculate with the real numbers
-in the last section.
-Lean is good not only for proving things about concrete mathematical
-structures like the natural numbers and the integers,
-but also for proving things about abstract structures,
-characterized axiomatically, like rings.
-Moreover, Lean supports *generic reasoning* about
-both abstract and concrete structures,
-and can be trained to recognize appropriate instances.
-So any theorem about rings can be applied to concrete rings
-like the integers, ``ℤ``, the rational numbers,  ``ℚ``,
-and the complex numbers ``ℂ``.
-It can also be applied to any instance of an abstract
-structure that extends rings,
-such as any ordered ring or any field.
+一些定理的名称可能会令人感到熟悉：它们正是我们在上一节中用来进行实数计算的定理。
+Lean 不仅适用于证明关于具体数学结构（如自然数和整数）的事实，还适用于证明关于抽象结构（例如环）的事实，这些抽象结构可以通过公理来刻画。
+此外，Lean 支持对抽象和具体结构进行 *通用推理*，并且可以被训练用于识别适当的实例。
+因此，关于环的任何定理都可以应用于具体的环，如整数 ``ℤ``、有理数 ``ℚ`` 和复数 ``ℂ``，也可以应用于扩展环的抽象结构的任何实例，例如任何有序环或任何域。
 
 .. index:: commutative ring
 
-Not all important properties of the real numbers hold in an
-arbitrary ring, however.
-For example, multiplication on the real numbers
-is commutative,
-but that does not hold in general.
-If you have taken a course in linear algebra,
-you will recognize that, for every :math:`n`,
-the :math:`n` by :math:`n` matrices of real numbers
-form a ring in which commutativity usually fails. If we declare ``R`` to be a
-*commutative* ring, in fact, all the theorems
-in the last section continue to hold when we replace
-``ℝ`` by ``R``.
+然而，这并不是说实数的所有重要性质在任意环中都成立。
+例如，实数上的乘法是交换的，但这对一般的环并不成立。
+如果你曾学过线性代数课程，你会意识到，对于每个 :math:`n`，由实数组成的 :math:`n` 乘 :math:`n` 的矩阵形成一个环，在这个环中通常不满足交换性质。
+事实上，如果我们声明 ``R`` 是一个 *交换* 环，则在用 ``R`` 替换 ``ℝ`` 时上一节中的所有定理仍然成立。
 TEXT. -/
 section
 -- QUOTE:
@@ -99,37 +70,22 @@ example (hyp : c = d * a + b) (hyp' : b = a * d) : c = 2 * a * d := by
 end
 
 /- TEXT:
-We leave it to you to check that all the other proofs go through unchanged.
-Notice that when a proof is short, like ``by ring`` or ``by linarith``
-or ``by sorry``,
-it is common (and permissible) to put it on the same line as
-the ``by``.
-Good proof-writing style should strike a balance between concision and readability.
+我们把检查其余证明的过程都不变的任务留给你。
+注意，当一个证明很简短时，比如 ``by ring`` 或 ``by linarith`` 或 ``by sorry``，将其放在与 ``by`` 同一行上是常见的（也是允许的）。
+良好的证明写作风格应该在简洁性和可读性之间取得平衡。
 
-The goal of this section is to strengthen the skills
-you have developed in the last section
-and apply them to reasoning axiomatically about rings.
-We will start with the axioms listed above,
-and use them to derive other facts.
-Most of the facts we prove are already in Mathlib.
-We will give the versions we prove the same names
-to help you learn the contents of the library
-as well as the naming conventions.
+本节的目标是加强你在上一节中所发展的技能，并将它们应用于对环进行公理推理。
+我们将从上面列出的公理开始，利用它们推导出其他事实。
+我们证明的大部分事实已经在 Mathlib 中了。
+我们将对这些事实在我们证明的版本中赋予相同的名称，以帮助你学习库的内容以及命名惯例。
 
 .. index:: namespace, open, command ; open
 
-Lean provides an organizational mechanism similar
-to those used in programming languages:
-when a definition or theorem ``foo`` is introduced in a *namespace*
-``bar``, its full name is ``bar.foo``.
-The command ``open bar`` later *opens* the namespace,
-which allows us to use the shorter name ``foo``.
-To avoid errors due to name clashes,
-in the next example we put our versions of the library
-theorems in a new namespace called ``MyRing.``
+Lean 提供了与编程语言类似的组织机制：当一个定义或定理 ``foo`` 被引入到 *命名空间* ``bar`` 中时，它的完整名称是 ``bar.foo``. 
+稍后的命令 ``open bar`` 会 *打开* 这个命名空间，这样我们就可以使用更短的名称 ``foo``. 
+为了避免由于名称冲突而产生的错误，在下一个示例中，我们将我们的库定理版本放在一个名为 ``MyRing`` 的新命名空间中。
 
-The next example shows that we do not need ``add_zero`` or ``add_right_neg``
-as ring axioms, because they follow from the other axioms.
+下一个示例显示，我们不需要环公理 ``add_zero`` 或 ``add_right_neg``，因为它们可以由其他公理推导出来。
 TEXT. -/
 -- QUOTE:
 namespace MyRing
@@ -146,20 +102,11 @@ end MyRing
 -- QUOTE.
 
 /- TEXT:
-The net effect is that we can temporarily reprove a theorem in the library,
-and then go on using the library version after that.
-But don't cheat!
-In the exercises that follow, take care to use only the
-general facts about rings that we have proved earlier in this section.
+这样做的效果是，我们可以临时重新证明库中的定理，然后在那之后继续使用库中的版本。但是不要作弊！在接下来的练习中，请注意只使用我们在本节前面证明的关于环的一般事实。
 
-(If you are paying careful attention, you may have noticed that we
-changed the round brackets in ``(R : Type*)`` for
-curly brackets in ``{R : Type*}``.
-This declares ``R`` to be an *implicit argument*.
-We will explain what this means in a moment,
-but don't worry about it in the meanwhile.)
+（如果你注意到了，我们已经将 ``(R : Type*)`` 中的圆括号改为了 ``{R : Type*}`` 中的花括号。这声明了 ``R`` 是一个 *隐式参数*。我们将在稍后解释这意味着什么，但在现阶段不用担心它。）
 
-Here is a useful theorem:
+下面是一个有用的定理：
 TEXT. -/
 -- BOTH:
 namespace MyRing
@@ -172,7 +119,7 @@ theorem neg_add_cancel_left (a b : R) : -a + (a + b) = b := by
 -- QUOTE.
 
 /- TEXT:
-Prove the companion version:
+证明相伴的版本：
 TEXT. -/
 -- Prove these:
 -- QUOTE:
@@ -185,7 +132,7 @@ theorem add_neg_cancel_rightαα (a b : R) : a + b + -b = a := by
   rw [add_assoc, add_right_neg, add_zero]
 
 /- TEXT:
-Use these to prove the following:
+利用这些来证明以下定理：
 TEXT. -/
 -- QUOTE:
 theorem add_left_cancel {a b c : R} (h : a + b = a + c) : b = c := by
@@ -203,35 +150,20 @@ theorem add_right_cancelαα {a b c : R} (h : a + b = c + b) : a = c := by
   rw [← add_neg_cancel_right a b, h, add_neg_cancel_right]
 
 /- TEXT:
-With enough planning, you can do each of them with three rewrites.
+只要有足够的计划，你可以使用三次重写来证明每个定理。
 
 .. index:: implicit argument
 
-We will now explain the use of the curly braces.
-Imagine you are in a situation where you have ``a``, ``b``, and ``c``
-in your context,
-as well as a hypothesis ``h : a + b = a + c``,
-and you would like to draw the conclusion ``b = c``.
-In Lean, you can apply a theorem to hypotheses and facts just
-the same way that you can apply them to objects,
-so you might think that ``add_left_cancel a b c h`` is a
-proof of the fact ``b = c``.
-But notice that explicitly writing ``a``, ``b``, and ``c``
-is redundant, because the hypothesis ``h`` makes it clear that
-those are the objects we have in mind.
-In this case, typing a few extra characters is not onerous,
-but if we wanted to apply ``add_left_cancel`` to more complicated expressions,
-writing them would be tedious.
-In cases like these,
-Lean allows us to mark arguments as *implicit*,
-meaning that they are supposed to be left out and inferred by other means,
-such as later arguments and hypotheses.
-The curly brackets in ``{a b c : R}`` do exactly that.
-So, given the statement of the theorem above,
-the correct expression is simply ``add_left_cancel h``.
+现在我们来解释一下花括号的用法。
+假设你处于这样一种情况，在你的上下文中有 ``a``、 ``b`` 和 ``c``，以及一个假设 ``h : a + b = a + c``，
+你想要得出结论 ``b = c``. 在 Lean 中，你可以将定理应用于假设和事实，就像你可以将它们应用于对象一样，因此你可能认为 ``add_left_cancel a b c h`` 是事实 ``b = c`` 的一个证明。
+但请注意，明确地写出 ``a``、 ``b`` 和 ``c`` 是多余的，因为假设 ``h`` 明确指出了我们所关注的对象。
+在这种情况下，输入一些额外的字符并不困难，但如果我们想将 ``add_left_cancel`` 应用于更复杂的表达式，写起来将会很繁琐。
+在这种情况下，Lean 允许我们将参数标记为 *隐式的*，意味着它们应该被省略，并由其他方法推断出来，比如通过后续的参数和假设。
+在 ``{a b c : R}`` 中的花括号就是这样做的。
+因此，根据上面定理的陈述，正确的表达方式就是简单地写成 ``add_left_cancel h``. 
 
-To illustrate, let us show that ``a * 0 = 0``
-follows from the ring axioms.
+为了说明，让我们展示如何从环公理中推导出 ``a * 0 = 0``. 
 TEXT. -/
 -- QUOTE:
 theorem mul_zero (a : R) : a * 0 = 0 := by
@@ -243,37 +175,22 @@ theorem mul_zero (a : R) : a * 0 = 0 := by
 /- TEXT:
 .. index:: have, tactics ; have
 
-We have used a new trick!
-If you step through the proof,
-you can see what is going on.
-The ``have`` tactic introduces a new goal,
-``a * 0 + a * 0 = a * 0 + 0``,
-with the same context as the original goal.
-The fact that the next line is indented indicates that Lean
-is expecting a block of tactics that serves to prove this
-new goal.
-The indentation therefore promotes a modular style of proof:
-the indented subproof establishes the goal
-that was introduced by the ``have``.
-After that, we are back to proving the original goal,
-except a new hypothesis ``h`` has been added:
-having proved it, we are now free to use it.
-At this point, the goal is exactly the result of ``add_left_cancel h``.
+我们使用了一个新技巧！
+如果你逐步观察证明，你就可以看到发生了什么。
+``have`` 策略引入了一个新的目标，即 ``a * 0 + a * 0 = a * 0 + 0``，它与原始目标具有相同的上下文。
+下一行被缩进的事实表明，Lean 正在期待一个策略块来证明这个新目标。
+因此，缩进鼓励一种模块化的证明风格：缩进的子证明构建了由 ``have`` 引入的目标。
+在此之后，我们回到了证明原始目标的过程中，只是添加了一个新的假设 ``h``：一旦证明了它，我们现在就可以自由地使用它。
+在这个位置，最终目标正是 ``add_left_cancel h`` 的结果。
 
 .. index:: apply, tactics ; apply, exact, tactics ; exact
 
-We could equally well have closed the proof with
-``apply add_left_cancel h`` or ``exact add_left_cancel h``.
-The ``exact`` tactic takes as argument a proof term which completely proves the
-current goal, without creating any new goal. The ``apply`` tactic is a variant
-whose argument is not necessarily a complete proof. The missing pieces are either
-inferred automatically by Lean or become new goals to prove.
-While the ``exact`` tactic is technically redundant since it is strictly less powerful
-than ``apply``, it makes proof scripts slightly clearer to
-human readers and easier to maintain when the library evolves.
+我们同样可以用 ``apply add_left_cancel h`` 或 ``exact add_left_cancel h`` 来结束证明。
+``exact`` 策略接受一个完全证明当前目标的证明项作为参数，而不会创建任何新的目标。 ``apply`` 策略是一个变种，其参数不一定是一个完整的证明。
+缺失的部分要么由 Lean 自动推断，要么成为要证明的新目标。
+虽然 ``exact`` 策略在技术上是多余的，因为它比 ``apply`` 更弱，但它略微使证明脚本对人类读者更清晰，并且在库升级时更易于维护。
 
-Remember that multiplication is not assumed to be commutative,
-so the following theorem also requires some work.
+请记住，乘法并不被假设为可交换的，因此下面的定理也需要一些工作。
 TEXT. -/
 -- QUOTE:
 theorem zero_mul (a : R) : 0 * a = 0 := by
@@ -286,10 +203,7 @@ theorem zero_mulαα (a : R) : 0 * a = 0 := by
   rw [add_left_cancel h]
 
 /- TEXT:
-By now, you should also be able replace each ``sorry`` in the next
-exercise with a proof,
-still using only facts about rings that we have
-established in this section.
+到现在，你应该也能够在下一个练习中用证明替换每个 ``sorry``，仍然只使用我们在本节中建立的关于环的事实。
 TEXT. -/
 -- QUOTE:
 theorem neg_eq_of_add_eq_zero {a b : R} (h : a + b = 0) : -a = b := by
@@ -327,13 +241,9 @@ theorem neg_negαα (a : R) : - -a = a := by
 end MyRing
 
 /- TEXT:
-We had to use the annotation ``(-0 : R)`` instead of ``0`` in the third theorem
-because without specifying ``R``
-it is impossible for Lean to infer which ``0`` we have in mind,
-and by default it would be interpreted as a natural number.
+在第三个定理中，我们不得不使用注释 ``(-0 : R)`` 而不是 ``0``，因为没有指定 ``R``，Lean 无法推断我们想要使用的是哪个 ``0``，默认情况下它将被解释为一个自然数。
 
-In Lean, subtraction in a ring is provably equal to
-addition of the additive inverse.
+在 Lean 中，可以证明环中减去一个元素等于加上它的加法逆元。
 TEXT. -/
 -- Examples.
 section
@@ -347,7 +257,7 @@ example (a b : R) : a - b = a + -b :=
 end
 
 /- TEXT:
-On the real numbers, it is *defined* that way:
+在实数上，减法就是这样 *定义* 的：
 TEXT. -/
 -- QUOTE:
 example (a b : ℝ) : a - b = a + -b :=
@@ -360,18 +270,9 @@ example (a b : ℝ) : a - b = a + -b := by
 /- TEXT:
 .. index:: rfl, reflexivity, tactics ; refl and reflexivity, definitional equality
 
-The proof term ``rfl`` is short for "reflexivity".
-Presenting it as a proof of ``a - b = a + -b`` forces Lean
-to unfold the definition and recognize both sides as being the same.
-The ``rfl`` tactic does the same.
-This is an instance of what is known as a *definitional equality*
-in Lean's underlying logic.
-This means that not only can one rewrite with ``sub_eq_add_neg``
-to replace ``a - b = a + -b``,
-but in some contexts, when dealing with the real numbers,
-you can use the two sides of the equation interchangeably.
-For example, you now have enough information to prove the theorem
-``self_sub`` from the last section:
+证明项 ``rfl`` 是“自反性”的简写。将它作为 ``a - b = a + -b`` 的证明，迫使 Lean 展开定义并识别出两边相同。 
+``rfl`` 策略也是如此。这是 Lean 底层逻辑中已知的一种*定义等式*的实例。这意味着不仅可以使用 ``sub_eq_add_neg`` 进行重写，
+以替换 ``a - b = a + -b``，而且在某些上下文中，处理实数时，你可以互换等式的两边。例如，你现在有足够的信息来证明上一节中的定理 ``self_sub``：
 TEXT. -/
 -- BOTH:
 namespace MyRing
@@ -384,19 +285,13 @@ theorem self_sub (a : R) : a - a = 0 := by
 -- QUOTE.
 
 -- SOLUTIONS:
-theorem self_subαα (a : R) : a - a = 0 := by
+theorem self_sub (a : R) : a - a = 0 := by
   rw [sub_eq_add_neg, add_right_neg]
 
 /- TEXT:
-Show that you can prove this using ``rw``,
-but if you replace the arbitrary ring ``R`` by
-the real numbers, you can also prove it
-using either ``apply`` or ``exact``.
+展示你可以使用 ``rw`` 来证明这一点，但如果你将任意环 ``R`` 替换为实数，则还可以使用 ``apply`` 或 ``exact`` 来证明它。
 
-Lean knows that ``1 + 1 = 2`` holds in any ring.
-With a bit of effort,
-you can use that to prove the theorem ``two_mul`` from
-the last section:
+Lean 知道在任何环中 ``1 + 1 = 2`` 都成立。通过一点努力，你可以利用这一点来证明上一节中的定理``two_mul``：
 TEXT. -/
 -- QUOTE:
 -- BOTH:
@@ -418,11 +313,7 @@ end MyRing
 /- TEXT:
 .. index:: group (algebraic structure)
 
-We close this section by noting that some of the facts about
-addition and negation that we established above do not
-need the full strength of the ring axioms, or even
-commutativity of addition. The weaker notion of a *group*
-can be axiomatized as follows:
+在本节结尾，我们注意到，我们上面建立的关于加法和负号的一些事实并不需要完整的环公理，甚至不需要加法的可交换性。弱一些的 *群* 的概念可以被公理化如下：
 TEXT. -/
 section
 -- QUOTE:
@@ -436,12 +327,7 @@ variable (A : Type*) [AddGroup A]
 end
 
 /- TEXT:
-It is conventional to use additive notation when
-the group operation is commutative,
-and multiplicative notation otherwise.
-So Lean defines a multiplicative version as well as the
-additive version (and also their abelian variants,
-``AddCommGroup`` and ``CommGroup``).
+当群运算是可交换的时，惯例上使用加法符号，否则使用乘法符号。因此，Lean 定义了一个乘法版本以及一个加法版本（还有它们的阿贝尔变体，``AddCommGroup`` 和 ``CommGroup``）。
 TEXT. -/
 -- BOTH:
 section
@@ -455,10 +341,7 @@ variable {G : Type*} [Group G]
 -- QUOTE.
 
 /- TEXT:
-If you are feeling cocky, try proving the following facts about
-groups, using only these axioms.
-You will need to prove a number of helper lemmas along the way.
-The proofs we have carried out in this section provide some hints.
+如果你感到自信，尝试使用这些公理来证明关于群的以下事实。你将需要在途中证明一些辅助引理。我们在本节中进行的证明提供了一些提示。
 TEXT. -/
 -- BOTH:
 namespace MyGroup
@@ -496,13 +379,8 @@ end
 /- TEXT:
 .. index:: group (tactic), tactics ; group, tactics ; noncomm_ring, tactics ; abel
 
-Explicitly invoking those lemmas is tedious, so Mathlib provides
-tactics similar to `ring` in order to cover most uses: `group`
-is for non-commutative multiplicative groups, `abel` for abelian
-additive groups, and `noncomm_ring` for non-commutative rings.
-It may seem odd that the algebraic structures are called
-`Ring` and `CommRing` while the tactics are named
-`noncomm_ring` and `ring`. This is partly for historical reasons,
-but also for the convenience of using a shorter name for the
-tactic that deals with commutative rings, since it is used more often.
+显式调用这些引理会很繁琐，因此 Mathlib 提供了类似于 `ring` 的策略来涵盖大多数用例： 
+`group` 用于非交换的乘法群， `abel` 用于阿贝尔的加法群， `noncomm_ring` 用于非交换环。
+可能看起来有些奇怪，代数结构被称为 `Ring` 和 `CommRing`，而策略被命名为 `noncomm_ring` 和 `ring`. 
+这在一定程度上是出于历史原因，但也是为了方便使用更短的名称来表示处理交换环的策略，因为它使用得更频繁。
 TEXT. -/

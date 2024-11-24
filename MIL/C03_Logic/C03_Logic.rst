@@ -1,14 +1,12 @@
 .. _logic:
 
-Logic
+逻辑
 =====
-
-In the last chapter, we dealt with equations, inequalities,
-and basic mathematical statements like
-":math:`x` divides :math:`y`."
-Complex mathematical statements are built up from
-simple ones like these
-using logical terms like "and," "or," "not," and
-"if ... then," "every," and "some."
-In this chapter, we show you how to work with statements
-that are built up in this way.
+在上一章中，我们讨论了等式、不等式和像
+":math:`x` 整除 :math:`y`" 
+这样的基本数学语句。
+复杂的数学语句是通过使用 "和"、"或"、"不"、"如果......那么"、"每 "和 
+"一些 "等逻辑术语，
+从类似的简单语句中建立起来的。
+在本章中，
+我们将向你展示如何处理以这种方式建立起来的语句。

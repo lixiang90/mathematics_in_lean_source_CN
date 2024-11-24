@@ -8,16 +8,14 @@ namespace C03S04
 /- TEXT:
 .. _conjunction_and_biimplication:
 
-Conjunction and Iff
+合取和等价
 -------------------
 
 .. index:: constructor, tactics ; constructor
 
-You have already seen that the conjunction symbol, ``∧``,
-is used to express "and."
-The ``constructor`` tactic allows you to prove a statement of
-the form ``A ∧ B``
-by proving ``A`` and then proving ``B``.
+你已经看到，合取符号 ``∧`` 用于表示 "且"。
+``constructor`` 策略允许你通过分别证明 ``A`` 和 ``B`` 证明形如 ``A ∧ B``
+的定理。
 TEXT. -/
 -- QUOTE:
 example {x y : ℝ} (h₀ : x ≤ y) (h₁ : ¬y ≤ x) : x ≤ y ∧ x ≠ y := by
@@ -31,16 +29,10 @@ example {x y : ℝ} (h₀ : x ≤ y) (h₁ : ¬y ≤ x) : x ≤ y ∧ x ≠ y :=
 /- TEXT:
 .. index:: assumption, tactics ; assumption
 
-In this example, the ``assumption`` tactic
-tells Lean to find an assumption that will solve the goal.
-Notice that the final ``rw`` finishes the goal by
-applying the reflexivity of ``≤``.
-The following are alternative ways of carrying out
-the previous examples using the anonymous constructor
-angle brackets.
-The first is a slick proof-term version of the
-previous proof,
-which drops into tactic mode at the keyword ``by``.
+在这个例子中， ``assumption`` 策略要求 Lean 寻找一个能解决目标的假设。
+注意到最后的 ``rw`` 应用了 ``≤`` 的自反性以完成目标。
+下面是解决前面的例子的其他一些方法，使用匿名构造器角括号。
+第一个是前述证明熟练的证明项版本，在关键字 ``by`` 处落入策略模式。
 TEXT. -/
 -- QUOTE:
 example {x y : ℝ} (h₀ : x ≤ y) (h₁ : ¬y ≤ x) : x ≤ y ∧ x ≠ y :=
@@ -54,12 +46,10 @@ example {x y : ℝ} (h₀ : x ≤ y) (h₁ : ¬y ≤ x) : x ≤ y ∧ x ≠ y :=
 -- QUOTE.
 
 /- TEXT:
-*Using* a conjunction instead of proving one involves unpacking the proofs of the
-two parts.
-You can use the ``rcases`` tactic for that,
-as well as ``rintro`` or a pattern-matching ``fun``,
-all in a manner similar to the way they are used with
-the existential quantifier.
+*使用* 合取而不是证明合取，就需要拆开两部分的证明。
+你可以用 ``rcases`` 策略做这个，
+也可以使用 ``rintro`` 或一个模式匹配函数 ``fun``,
+使用方式都与它们在存在量词中的使用方式类似。
 TEXT. -/
 -- QUOTE:
 example {x y : ℝ} (h : x ≤ y ∧ x ≠ y) : ¬y ≤ x := by
@@ -76,7 +66,7 @@ example {x y : ℝ} : x ≤ y ∧ x ≠ y → ¬y ≤ x :=
 -- QUOTE.
 
 /- TEXT:
-In analogy to the ``obtain`` tactic, there is also a pattern-matching ``have``:
+就像 ``obtain`` 策略一样，还有一个模式匹配版的 ``have``:
 TEXT. -/
 -- QUOTE:
 example {x y : ℝ} (h : x ≤ y ∧ x ≠ y) : ¬y ≤ x := by
@@ -86,9 +76,8 @@ example {x y : ℝ} (h : x ≤ y ∧ x ≠ y) : ¬y ≤ x := by
 -- QUOTE.
 
 /- TEXT:
-In contrast to ``rcases``, here the ``have`` tactic leaves ``h`` in the context.
-And even though we won't use them, once again we have the computer scientists'
-pattern-matching syntax:
+和 ``rcases`` 相反，这里 ``have`` 策略把 ``h`` 留在了上下文中。
+以及，我们又一次拥有了计算机科学家的模式匹配语法，尽管我们不会使用它们：
 TEXT. -/
 -- QUOTE:
 example {x y : ℝ} (h : x ≤ y ∧ x ≠ y) : ¬y ≤ x := by
@@ -111,11 +100,10 @@ example {x y : ℝ} (h : x ≤ y ∧ x ≠ y) : ¬y ≤ x := by
 -- QUOTE.
 
 /- TEXT:
-In contrast to using an existential quantifier,
-you can also extract proofs of the two components
-of a hypothesis ``h : A ∧ B``
-by writing ``h.left`` and ``h.right``,
-or, equivalently, ``h.1`` and ``h.2``.
+与使用存在量词不同，
+你可以通过输入 ``h.left`` 和 ``h.right``,
+或者，等价地， ``h.1`` 和 ``h.2``,
+提取假设 ``h : A ∧ B`` 两部分的证明。
 TEXT. -/
 -- QUOTE:
 example {x y : ℝ} (h : x ≤ y ∧ x ≠ y) : ¬y ≤ x := by
@@ -128,7 +116,7 @@ example {x y : ℝ} (h : x ≤ y ∧ x ≠ y) : ¬y ≤ x :=
 -- QUOTE.
 
 /- TEXT:
-Try using these techniques to come up with various ways of proving of the following:
+尝试使用这些技术，想出多种方式证明以下内容：
 TEXT. -/
 -- QUOTE:
 example {m n : ℕ} (h : m ∣ n ∧ m ≠ n) : m ∣ n ∧ ¬n ∣ m :=
@@ -145,8 +133,7 @@ example {m n : ℕ} (h : m ∣ n ∧ m ≠ n) : m ∣ n ∧ ¬n ∣ m := by
   apply Nat.dvd_antisymm h0 h2
 
 /- TEXT:
-You can nest uses of ``∃`` and ``∧``
-with anonymous constructors, ``rintro``, and ``rcases``.
+你可以通过匿名构造器 ``rintro`` 和 ``rcases`` 嵌套使用 ``∃`` 和 ``∧``.
 TEXT. -/
 -- QUOTE:
 example : ∃ x : ℝ, 2 < x ∧ x < 4 :=
@@ -161,7 +148,7 @@ example (x y : ℝ) : (∃ z : ℝ, x < z ∧ z < y) → x < y :=
 -- QUOTE.
 
 /- TEXT:
-You can also use the ``use`` tactic:
+你也可以使用 ``use`` 策略：
 TEXT. -/
 -- QUOTE:
 example : ∃ x : ℝ, 2 < x ∧ x < 4 := by
@@ -180,18 +167,18 @@ example {x y : ℝ} : x ≤ y ∧ x ≠ y → x ≤ y ∧ ¬y ≤ x := by
 -- QUOTE.
 
 /- TEXT:
-In the first example, the semicolon after the ``constructor`` command tells Lean to use the
-``norm_num`` tactic on both of the goals that result.
+在第一个例子中， ``constructor`` 命令后的分号告诉 Lean 对产生的全部两个目标使用 ``norm_num`` 策略。
 
-In Lean, ``A ↔ B`` is *not* defined to be ``(A → B) ∧ (B → A)``,
-but it could have been,
-and it behaves roughly the same way.
-You have already seen that you can write ``h.mp`` and ``h.mpr``
-or ``h.1`` and ``h.2`` for the two directions of ``h : A ↔ B``.
-You can also use ``cases`` and friends.
-To prove an if-and-only-if statement,
-you can use ``constructor`` or angle brackets,
-just as you would if you were proving a conjunction.
+在 Lean 中， ``A ↔ B`` *并非* 定义为 ``(A → B) ∧ (B → A)``,
+但其实如果这样定义也无妨，
+而且它的行为几乎与此相同。
+你已经看到，你可以输入 ``h.mp`` 和 ``h.mpr``,
+或者 ``h.1`` 和 ``h.2``,
+用于表示 ``h : A ↔ B`` 的两个方向。
+你也可以使用 ``cases`` 及类似策略。
+要证明一条当且仅当语句，
+你可以使用 ``constructor`` 或角括号，
+就像你要证明一个合取一样。
 TEXT. -/
 -- QUOTE:
 example {x y : ℝ} (h : x ≤ y) : ¬y ≤ x ↔ x ≠ y := by
@@ -207,12 +194,10 @@ example {x y : ℝ} (h : x ≤ y) : ¬y ≤ x ↔ x ≠ y :=
 -- QUOTE.
 
 /- TEXT:
-The last proof term is inscrutable. Remember that you can
-use underscores while writing an expression like that to
-see what Lean expects.
+最后一个证明项令人费解。
+请记住，在编写这样的表达式时，可以使用下划线来查看 Lean 的预期。
 
-Try out the various techniques and gadgets you have just seen
-in order to prove the following:
+尝试你刚才学到的的各种技术和工具以证明下列命题：
 TEXT. -/
 -- QUOTE:
 example {x y : ℝ} : x ≤ y ∧ ¬y ≤ x ↔ x ≤ y ∧ x ≠ y :=
@@ -236,11 +221,10 @@ example {x y : ℝ} : x ≤ y ∧ ¬y ≤ x ↔ x ≤ y ∧ x ≠ y := by
   apply le_antisymm h0 h2
 
 /- TEXT:
-For a more interesting exercise, show that for any
-two real numbers ``x`` and ``y``,
-``x^2 + y^2 = 0`` if and only if ``x = 0`` and ``y = 0``.
-We suggest proving an auxiliary lemma using
-``linarith``, ``pow_two_nonneg``, and ``pow_eq_zero``.
+这是一个更有意思的练习，请证明，对于任意两个实数 ``x`` 和 ``y``,
+``x^2 + y^2 = 0`` 当且仅当 ``x = 0`` 且 ``y = 0``.
+我们建议使用 ``linarith``, ``pow_two_nonneg`` 和 ``pow_eq_zero``
+证明一条辅助性的引理。
 TEXT. -/
 -- QUOTE:
 theorem aux {x y : ℝ} (h : x ^ 2 + y ^ 2 = 0) : x = 0 :=
@@ -267,19 +251,15 @@ example (x y : ℝ) : x ^ 2 + y ^ 2 = 0 ↔ x = 0 ∧ y = 0 := by
   norm_num
 
 /- TEXT:
-In Lean, bi-implication leads a double-life.
-You can treat it like a conjunction and use its two
-parts separately.
-But Lean also knows that it is a reflexive, symmetric,
-and transitive relation between propositions,
-and you can also use it with ``calc`` and ``rw``.
-It is often convenient to rewrite a statement to
-an equivalent one.
-In the next example, we use ``abs_lt`` to
-replace an expression of the form ``|x| < y``
-by the equivalent expression ``- y < x ∧ x < y``,
-and in the one after that we use ``Nat.dvd_gcd_iff``
-to replace an expression of the form ``m ∣ Nat.gcd n k`` by the equivalent expression ``m ∣ n ∧ m ∣ k``.
+在 Lean 中，双向蕴含具有双重身份。
+你可以将其视为合取，分别使用其两个部分。
+但 Lean 也知道它是命题之间的一个反射、对称且传递的关系，
+你也可以通过 ``calc`` 和 ``rw`` 使用它。
+把一个语句重写为等价语句经常很方便。
+在下一个例子中，我们使用 ``abs_lt`` 将形如 ``|x| < y``
+的表达式替换为等价表达式 ``- y < x ∧ x < y``,
+在下下个例子中，我们使用 ``Nat.dvd_gcd_iff``
+将形如 ``m ∣ Nat.gcd n k`` 的表达式替换为等价表达式 ``m ∣ n ∧ m ∣ k``.
 TEXT. -/
 section
 
@@ -297,11 +277,8 @@ example : 3 ∣ Nat.gcd 6 15 := by
 end
 
 /- TEXT:
-See if you can use ``rw`` with the theorem below
-to provide a short proof that negation is not a
-nondecreasing function. (Note that ``push_neg`` won't
-unfold definitions for you, so the ``rw [Monotone]`` in
-the proof of the theorem is needed.)
+看看你能否将 ``rw`` 与下面的定理结合起来使用来简短地证明相反数不是一个非递减函数。
+(注意 ``push_neg`` 不会为你展开定义，所以需要在定理证明中使用 ``rw [Monotone]``）。
 BOTH: -/
 -- QUOTE:
 theorem not_monotone_iff {f : ℝ → ℝ} : ¬Monotone f ↔ ∃ x y, x ≤ y ∧ f x > f y := by
@@ -321,18 +298,14 @@ example : ¬Monotone fun x : ℝ ↦ -x := by
   norm_num
 
 /- TEXT:
-The remaining exercises in this section are designed
-to give you some more practice with conjunction and
-bi-implication. Remember that a *partial order* is a
-binary relation that is transitive, reflexive, and
-antisymmetric.
-An even weaker notion sometimes arises:
-a *preorder* is just a reflexive, transitive relation.
-For any pre-order ``≤``,
-Lean axiomatizes the associated strict pre-order by
+本节其余练习题旨在为你提供关于合取和双向蕴含的进一步练习。
+请记住，*偏序* 是一种具有传递性、反身性和反对称性的二元关系。
+有时还会出现一个更弱的概念：*预序* 只是一个反身、传递关系。
+对于任何预序 ``≤``,
+Lean 把相应的严格预序公理化定义为
 ``a < b ↔ a ≤ b ∧ ¬ b ≤ a``.
-Show that if ``≤`` is a partial order,
-then ``a < b`` is equivalent to ``a ≤ b ∧ a ≠ b``:
+证明如果 ``≤`` 是偏序，
+那么 ``a < b`` 等价于 ``a ≤ b ∧ a ≠ b``:
 TEXT. -/
 -- BOTH:
 section
@@ -369,19 +342,16 @@ end
 /- TEXT:
 .. index:: simp, tactics ; simp
 
-Beyond logical operations, you do not need
-anything more than ``le_refl`` and ``le_trans``.
-Show that even in the case where ``≤``
-is only assumed to be a preorder,
-we can prove that the strict order is irreflexive
-and transitive.
-In the second example,
-for convenience, we use the simplifier rather than ``rw``
-to express ``<`` in terms of ``≤`` and ``¬``.
-We will come back to the simplifier later,
-but here we are only relying on the fact that it will
-use the indicated lemma repeatedly, even if it needs
-to be instantiated to different values.
+除了逻辑运算以外，你不需要 ``le_refl`` 和 ``le_trans`` 之外的任何东西。
+证明即使在只假定 ``≤`` 是预序的情况下，
+我们也可以证明严格序是反自反的和传递的。
+在第二个例子中，为了方便，
+我们使用了化简器而非 ``rw`` 把 ``<`` 表示为关于 ``≤`` 和 ``¬``
+的表达式。
+我们稍后再讨论化简器，
+但在这里，我们只依赖于这样一个事实：
+它会重复使用指定的引理，
+即使需要用不同的值将其实例化。
 TEXT. -/
 -- BOTH:
 section
