@@ -1,5 +1,5 @@
 import MIL.Common
-import Mathlib.Topology.Instances.Real
+import Mathlib.Topology.Instances.Real.Defs
 import Mathlib.Analysis.Normed.Operator.BanachSteinhaus
 
 open Set Filter Topology
@@ -45,7 +45,7 @@ example {ι : Type*} [Fintype ι] {s : ι → Set X} (hs : ∀ i, IsOpen (s i)) 
 
 /- TEXT:
 
-Closed sets are then defined as sets whose complement  is open. A function between topological spaces
+Closed sets are then defined as sets whose complement is open. A function between topological spaces
 is (globally) continuous if all preimages of open sets are open.
 BOTH: -/
 -- QUOTE:
@@ -142,14 +142,10 @@ BOTH: -/
 -- QUOTE:
 example {α : Type*} (n : α → Filter α) (H₀ : ∀ a, pure a ≤ n a)
     (H : ∀ a : α, ∀ p : α → Prop, (∀ᶠ x in n a, p x) → ∀ᶠ y in n a, ∀ᶠ x in n y, p x) :
-    ∀ a, ∀ s ∈ n a, ∃ t ∈ n a, t ⊆ s ∧ ∀ a' ∈ t, s ∈ n a' :=
-  sorry
--- QUOTE.
-
--- SOLUTIONS:
-example {α : Type*} (n : α → Filter α) (H₀ : ∀ a, pure a ≤ n a)
-    (H : ∀ a : α, ∀ p : α → Prop, (∀ᶠ x in n a, p x) → ∀ᶠ y in n a, ∀ᶠ x in n y, p x) :
     ∀ a, ∀ s ∈ n a, ∃ t ∈ n a, t ⊆ s ∧ ∀ a' ∈ t, s ∈ n a' := by
+/- EXAMPLES:
+  sorry
+SOLUTIONS: -/
   intro a s s_in
   refine ⟨{ y | s ∈ n y }, H a (fun x ↦ x ∈ s) s_in, ?_, by tauto⟩
   rintro y (hy : s ∈ n y)
@@ -158,7 +154,7 @@ example {α : Type*} (n : α → Filter α) (H₀ : ∀ a, pure a ≤ n a)
 -- BOTH:
 end
 
--- BOTH.
+-- QUOTE.
 /- TEXT:
 Note that ``TopologicalSpace.mkOfNhds`` is not so frequently used, but it still good to know in what
 precise sense the neighborhood filters is all there is in a topological space structure.
@@ -200,7 +196,7 @@ example (f : X → Y) (T_X : TopologicalSpace X) (T_Y : TopologicalSpace Y) :
 -- QUOTE.
 
 /- TEXT:
-Those operations are compactible with composition of functions.
+Those operations are compatible with composition of functions.
 As usual, pushing forward is covariant and pulling back is contravariant, see ``coinduced_compose`` and ``induced_compose``.
 On paper we will use notations :math:`f_*T` for ``TopologicalSpace.coinduced f T`` and
 :math:`f^*T` for ``TopologicalSpace.induced f T``.
@@ -331,7 +327,7 @@ a continuous mapping of :math:`A` into a :math:`T_3` space :math:`Y`. If, for ea
 while remaining in :math:`A` then there exists a continuous extension :math:`φ` of :math:`f` to
 :math:`X`.
 
-Actually Mathlib contains a more general version of the above lemma, ``DenseInducing.continuousAt_extend``,
+Actually Mathlib contains a more general version of the above lemma, ``IsDenseInducing.continuousAt_extend``,
 but we'll stick to Bourbaki's version here.
 
 Remember that, given ``A : Set X``, ``↥A`` is the subtype associated to ``A``, and Lean will automatically

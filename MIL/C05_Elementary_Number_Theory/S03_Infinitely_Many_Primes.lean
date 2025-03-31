@@ -125,7 +125,7 @@ BOTH: -/
 -- QUOTE:
 theorem primes_infinite : ∀ n, ∃ p > n, Nat.Prime p := by
   intro n
-  have : 2 ≤ Nat.factorial (n + 1) + 1 := by
+  have : 2 ≤ Nat.factorial n + 1 := by
 /- EXAMPLES:
     sorry
 SOLUTIONS: -/
@@ -136,8 +136,8 @@ SOLUTIONS: -/
   refine ⟨p, ?_, pp⟩
   show p > n
   by_contra ple
-  push_neg  at ple
-  have : p ∣ Nat.factorial (n + 1) := by
+  push_neg at ple
+  have : p ∣ Nat.factorial n := by
 /- EXAMPLES:
     sorry
 SOLUTIONS: -/
@@ -261,10 +261,10 @@ end
 /- TEXT:
 定理 ``Finset.dvd_prod_of_mem``
 告诉我们如果 ``n`` 是有限集 ``s`` 的元素，
-那么 ``n`` 整除 ``∏ i in s, i``.
+那么 ``n`` 整除 ``∏ i ∈ s, i``.
 EXAMPLES: -/
 -- QUOTE:
-example (s : Finset ℕ) (n : ℕ) (h : n ∈ s) : n ∣ ∏ i in s, i :=
+example (s : Finset ℕ) (n : ℕ) (h : n ∈ s) : n ∣ ∏ i ∈ s, i :=
   Finset.dvd_prod_of_mem _ h
 -- QUOTE.
 
@@ -306,7 +306,7 @@ Mathlib 提供了在有限集上做归纳的一个有用法则：
 BOTH: -/
 -- QUOTE:
 theorem mem_of_dvd_prod_primes {s : Finset ℕ} {p : ℕ} (prime_p : p.Prime) :
-    (∀ n ∈ s, Nat.Prime n) → (p ∣ ∏ n in s, n) → p ∈ s := by
+    (∀ n ∈ s, Nat.Prime n) → (p ∣ ∏ n ∈ s, n) → p ∈ s := by
   intro h₀ h₁
   induction' s using Finset.induction_on with a s ans ih
   · simp at h₁
@@ -357,7 +357,7 @@ theorem primes_infinite' : ∀ s : Finset Nat, ∃ p, Nat.Prime p ∧ p ∉ s :=
     intro n
     simp [s'_def]
     apply h
-  have : 2 ≤ (∏ i in s', i) + 1 := by
+  have : 2 ≤ (∏ i ∈ s', i) + 1 := by
 /- EXAMPLES:
     sorry
 SOLUTIONS: -/
@@ -368,7 +368,7 @@ SOLUTIONS: -/
     apply (mem_s'.mp ns').pos
 -- BOTH:
   rcases exists_prime_factor this with ⟨p, pp, pdvd⟩
-  have : p ∣ ∏ i in s', i := by
+  have : p ∣ ∏ i ∈ s', i := by
 /- EXAMPLES:
     sorry
 SOLUTIONS: -/
@@ -569,7 +569,7 @@ theorem primes_mod_4_eq_3_infinite : ∀ n, ∃ p > n, Nat.Prime p ∧ p % 4 = 3
     rcases hn with ⟨p, ⟨pp, p4⟩, pltn⟩
     exact ⟨p, pltn, pp, p4⟩
   rcases this with ⟨s, hs⟩
-  have h₁ : ((4 * ∏ i in erase s 3, i) + 3) % 4 = 3 := by
+  have h₁ : ((4 * ∏ i ∈ erase s 3, i) + 3) % 4 = 3 := by
 /- EXAMPLES:
     sorry
 SOLUTIONS: -/
@@ -598,7 +598,7 @@ SOLUTIONS: -/
       tauto
     simp at this
 -- BOTH:
-  have : p ∣ 4 * ∏ i in erase s 3, i := by
+  have : p ∣ 4 * ∏ i ∈ erase s 3, i := by
 /- EXAMPLES:
     sorry
 SOLUTIONS: -/

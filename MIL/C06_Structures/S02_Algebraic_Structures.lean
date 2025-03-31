@@ -149,7 +149,7 @@ structure Group₁ (α : Type*) where
 
 -- OMIT: TODO: explain the extends command later, and also redundant inheritance
 /- TEXT:
-Notice that the type ``α`` is a *parameter* in the definition of ``group₁``.
+Notice that the type ``α`` is a *parameter* in the definition of ``Group₁``.
 So you should think of an object ``struc : Group₁ α`` as being
 a group structure on ``α``.
 We saw in :numref:`proving_identities_in_algebraic_structures`
@@ -175,17 +175,17 @@ morally the same as the definition of a group that Mathlib uses.
 
 It is sometimes useful to bundle
 the type together with the structure, and Mathlib also
-contains a definition of a ``GroupCat`` structure that is equivalent to
+contains a definition of a ``Grp`` structure that is equivalent to
 the following:
 EXAMPLES: -/
 -- QUOTE:
-structure Group₁Cat where
+structure Grp₁ where
   α : Type*
   str : Group₁ α
 -- QUOTE.
 
 /- TEXT:
-The Mathlib version is found in ``Mathlib.Algebra.Category.GroupCat.Basic``,
+The Mathlib version is found in ``Mathlib.Algebra.Category.Grp.Basic``,
 and you can ``#check`` it if you add this to the imports at the
 beginning of the examples file.
 
@@ -277,7 +277,7 @@ def permGroup {α : Type*} : Group₁ (Equiv.Perm α)
 
 /- TEXT:
 In fact, Mathlib defines exactly this ``Group`` structure on ``Equiv.Perm α``
-in the file ``GroupTheory.Perm.Basic``.
+in the file ``Algebra.Group.End``.
 As always, you can hover over the theorems used in the definition of
 ``permGroup`` to see their statements,
 and you can jump to their definitions in the original file to learn
@@ -288,7 +288,7 @@ independent of structure.
 For example, we can consider groups :math:`(G_1, \cdot, 1, \cdot^{-1})`,
 :math:`(G_2, \circ, e, i(\cdot))`, and :math:`(G_3, +, 0, -)`.
 In the first case, we write the binary operation as :math:`\cdot`,
-the identity at :math:`1`, and the inverse function as :math:`x \mapsto x^{-1}`.
+the identity as :math:`1`, and the inverse function as :math:`x \mapsto x^{-1}`.
 In the second and third cases, we use the notational alternatives shown.
 When we formalize the notion of a group in Lean, however,
 the notation is more tightly linked to the structure.
@@ -586,13 +586,13 @@ because Lean knows that these are defined for every ring.
 We can use this method to specify notation for our ``Group₂`` class:
 EXAMPLES: -/
 -- QUOTE:
-instance hasMulGroup₂ {α : Type*} [Group₂ α] : Mul α :=
+instance {α : Type*} [Group₂ α] : Mul α :=
   ⟨Group₂.mul⟩
 
-instance hasOneGroup₂ {α : Type*} [Group₂ α] : One α :=
+instance {α : Type*} [Group₂ α] : One α :=
   ⟨Group₂.one⟩
 
-instance hasInvGroup₂ {α : Type*} [Group₂ α] : Inv α :=
+instance {α : Type*} [Group₂ α] : Inv α :=
   ⟨Group₂.inv⟩
 
 section
@@ -607,8 +607,6 @@ end
 -- QUOTE.
 
 /- TEXT:
-In this case, we have to supply names for the instances, because
-Lean has a hard time coming up with good defaults.
 What makes this approach work is that Lean carries out a recursive search.
 According to the instances we have declared, Lean can find an instance of
 ``Mul (Equiv.Perm α)`` by finding an

@@ -346,7 +346,7 @@ example (h : ¬Monotone f) : ∃ x y, x ≤ y ∧ f y < f x := by
 -- SOLUTIONS:
 example (h : ¬Monotone f) : ∃ x y, x ≤ y ∧ f y < f x := by
   rw [Monotone] at h
-  push_neg  at h
+  push_neg at h
   exact h
 
 /- TEXT:

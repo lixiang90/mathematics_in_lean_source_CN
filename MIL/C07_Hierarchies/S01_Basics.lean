@@ -1,5 +1,5 @@
 import MIL.Common
-import Mathlib.Algebra.BigOperators.Ring
+import Mathlib.Algebra.BigOperators.Ring.List
 import Mathlib.Data.Real.Basic
 
 set_option autoImplicit true
@@ -346,8 +346,6 @@ class AddMonoid₃ (α : Type) extends AddSemigroup₃ α, AddZeroClass α
 @[to_additive AddMonoid₃]
 class Monoid₃ (α : Type) extends Semigroup₃ α, MulOneClass α
 
-attribute [to_additive existing] Monoid₃.toMulOneClass
-
 export Semigroup₃ (mul_assoc₃)
 export AddSemigroup₃ (add_assoc₃)
 
@@ -671,7 +669,7 @@ BOTH: -/
 
 -- QUOTE.
 /- TEXT:
-But in a more indirect context it can happen that Lean infers the one and then gets confused.
+But in a more indirect context it can happen that Lean infers the other one and then gets confused.
 This situation is known as a bad diamond. This has nothing to do with the diamond operation
 we used above, it refers to the way one can draw the paths from ``ℤ`` to its ``Module₁ ℤ``
 going through either ``AddCommGroup₃ ℤ`` or ``Ring₃ ℤ``.
@@ -681,14 +679,14 @@ in Mathlib, and also in this chapter. Already at the very beginning we saw one c
 from ``Monoid₁ α`` to ``Dia₁ α`` through either ``Semigroup₁ α`` or ``DiaOneClass₁ α`` and
 thanks to the work done by the ``class`` command, the resulting two ``Dia₁ α`` instances
 are definitionally equal. In particular a diamond having a ``Prop``-valued class at the bottom
-cannot be bad since any too proofs of the same statement are definitionally equal.
+cannot be bad since any two proofs of the same statement are definitionally equal.
 
 But the diamond we created with modules is definitely bad. The offending piece is the ``smul``
 field which is data, not a proof, and we have two constructions that are not definitionally equal.
 The robust way of fixing this issue is to make sure that going from a rich structure to a
 poor structure is always done by forgetting data, not by defining data. This well-known pattern
-as been named "forgetful inheritance" and extensively discussed in
-https://inria.hal.science/hal-02463336.
+has been named "forgetful inheritance" and extensively discussed in
+https://inria.hal.science/hal-02463336v2.
 
 In our concrete case, we can modify the definition of ``AddMonoid₃`` to include a ``nsmul`` data
 field and some ``Prop``-valued fields ensuring this operation is provably the one we constructed
@@ -759,10 +757,9 @@ As an exercise, you can come back to the order relation hierarchy you built abov
 to incorporate a type class ``LT₁`` carrying the Less-Than notation ``<₁`` and make sure
 that every preorder comes with a ``<₁`` which has a default value built from ``≤₁`` and a
 ``Prop``-valued field asserting the natural relation between those two comparison operators.
--/
+TEXT. -/
 
 -- SOLUTIONS:
-
 class LT₁ (α : Type) where
   /-- The Less-Than relation -/
   lt : α → α → Prop

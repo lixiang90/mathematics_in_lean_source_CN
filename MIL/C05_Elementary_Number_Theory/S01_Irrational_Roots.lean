@@ -427,5 +427,5 @@ end
 --   have := Ne.symm (ne_of_lt this)
 --   intro h
 --   field_simp [this]  at h
---   norm_cast  at h
+--   norm_cast at h
 --   sorry

@@ -17,7 +17,7 @@ TEXT. -/
 -- QUOTE.
 
 /- TEXT:
-自然语言表述为 "对于每个实数 ``x``, 若 ``0 ≤ x``, 则 
+自然语言表述为 "对于每个实数 ``x``, 若 ``0 ≤ x``, 则
 ``x`` 的绝对值等于 ``x``".
 我们还可以有更复杂的语句，例如：
 TEXT. -/
@@ -27,7 +27,7 @@ TEXT. -/
 
 /- TEXT:
 自然语言表述为 "对于任意的 ``x``, ``y``, 以及 ``ε``,
-若 ``0 < ε ≤ 1``, ``x`` 的绝对值小于 ``ε``, 
+若 ``0 < ε ≤ 1``, ``x`` 的绝对值小于 ``ε``,
 且 ``y`` 的绝对值小于 ``ε``,
 则 ``x * y`` 的绝对值小于 ``ε``."
 在Lean中，一连串的蕴含中有隐含的右结合括号。
@@ -81,7 +81,7 @@ end
 -- QUOTE.
 
 /- TEXT:
-在当前阶段，你也知道如果你使用 ``apply`` 
+在当前阶段，你也知道如果你使用 ``apply``
 策略将 ``my_lemma`` 应用于形如 ``|a * b| < δ`` 的目标，
 就会留下一些新的目标，它们要求你证明引理的每个假设。
 
@@ -177,7 +177,7 @@ example (hfa : FnUb f a) (hgb : FnUb g b) : FnUb (fun x ↦ f x + g x) (a + b) :
 /- TEXT:
 .. index:: dsimp, tactics ; dsimp, change, tactics ; change
 
-把 ``intro`` 应用于目标 ``FnUb (fun x ↦ f x + g x) (a + b)`` 
+把 ``intro`` 应用于目标 ``FnUb (fun x ↦ f x + g x) (a + b)``
 迫使 Lean 展开 ``FnUb`` 的定义并引入 ``x`` 作为全称量词。
 此时目标为 ``(fun (x : ℝ) ↦ f x + g x) x ≤ a + b``.
 但在 ``(fun x ↦ f x + g x)`` 上取值 ``x`` 的结果应该是 ``f x + g x``,
@@ -186,8 +186,8 @@ example (hfa : FnUb f a) (hgb : FnUb g b) : FnUb (fun x ↦ f x + g x) (a + b) :
 你可以删除这个命令，证明仍然有效；
 Lean将不得不执行那个化简，才能使下一个 ``apply`` 有意义。
 ``dsimp`` 命令只是让目标更可读，并帮我们弄清楚下一步要做什么。
-另一种选择是通过输入 ``change f x + g x ≤ a + b`` 
-来使用 ``change`` 策略。 
+另一种选择是通过输入 ``change f x + g x ≤ a + b``
+来使用 ``change`` 策略。
 这有助于提高证明的可读性，
 并让你对目标的转换方式有更多的控制。
 
@@ -267,7 +267,7 @@ Section :numref:`proving_identities_in_algebraic_structures` 中已经看到过�
 
 .. index:: monotone function
 
-再举一个隐藏全称量词的例子， 
+再举一个隐藏全称量词的例子，
 Mathlib 定义了一个谓词 ``Monotone``,
 表示函数相对于参数是非递减的：
 TEXT. -/
@@ -300,7 +300,7 @@ example (mf : Monotone f) (mg : Monotone g) : Monotone fun x ↦ f x + g x := by
 
 /- TEXT:
 当一个证明如此简短时，给出一个证明项往往更方便。
-描述一个临时引入对象 
+描述一个临时引入对象
 ``a`` 和 ``b`` 以及假设 ``aleb`` 的证明时，
 Lean 使用符号 ``fun a b aleb ↦ ...``.
 这类似于用 ``fun x ↦ x^2`` 这样的表达式来描述一个函数时，
@@ -351,9 +351,9 @@ example (mf : Monotone f) (mg : Monotone g) : Monotone fun x ↦ f (g x) :=
 
 /- TEXT:
 这里是另一些例子。
-一个从 :math:`\Bbb R` 到 :math:`\Bbb R` 的函数 :math:`f` 
-称为 *偶函数*，如果对每个 :math:`x`, 有 :math:`f(-x) = f(x)`, 
-称为 *奇函数*，如果对每个 :math:`x`, 有 :math:`f(-x) = -f(x)`. 
+一个从 :math:`\Bbb R` 到 :math:`\Bbb R` 的函数 :math:`f`
+称为 *偶函数*，如果对每个 :math:`x`, 有 :math:`f(-x) = f(x)`,
+称为 *奇函数*，如果对每个 :math:`x`, 有 :math:`f(-x) = -f(x)`.
 下面的例子形式化地定义了这两个概念，并确立了关于它们的一个事实。
 你可以完成其他事实的证明。
 TEXT. -/
@@ -423,7 +423,7 @@ Mathlib 包含一个用于操作集合的优秀的库。回想一下，Lean 并�
 这与 Zermelo-Fraenkel 集合论不同，
 例如其中对于每个数学对象 ``a`` 和 ``b``, ``a∈b`` 都是良好形式的语句。
 例如， ``sin ∈ cos`` 是 ZF 中一个格式良好的语句。
-集合论基础的这一缺陷是证明助手中不使用它的一个重要原因，因为证明助手的目的是帮助我们检出无意义的表达式。在 Lean 中， ``sin`` 具有类型 ``ℝ → ℝ``, 而 ``cos`` 具有类型 ``ℝ → ℝ``, 
+集合论基础的这一缺陷是证明助手中不使用它的一个重要原因，因为证明助手的目的是帮助我们检出无意义的表达式。在 Lean 中， ``sin`` 具有类型 ``ℝ → ℝ``, 而 ``cos`` 具有类型 ``ℝ → ℝ``,
 它不等于 ``Set (ℝ → ℝ)``, 即使在展开定义以后也不相等，因此语句 ``sin ∈ cos`` 无意义。
 我们还可以利用 Lean 来研究集合论本身。
 例如，连续统假设与 Zermelo-Fraenkel 公理的独立性就在 Lean 中得到了形式化。

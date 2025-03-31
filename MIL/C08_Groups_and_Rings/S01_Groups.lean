@@ -655,7 +655,7 @@ Recall that elements of this dependent product are pairs ``⟨ω, x⟩`` where t
 EXAMPLES: -/
 -- QUOTE:
 example {G X : Type*} [Group G] [MulAction G X] :
-    X ≃ (ω : orbitRel.Quotient G X) × (orbit G (Quotient.out' ω)) :=
+    X ≃ (ω : orbitRel.Quotient G X) × (orbit G (Quotient.out ω)) :=
   MulAction.selfEquivSigmaOrbits G X
 -- QUOTE.
 
@@ -850,7 +850,7 @@ variable [H.Normal] [K.Normal] [Fintype G] (h : Disjoint H K)
 #check restrict
 #check ker_restrict
 
-def iso₁ [Fintype G] (h : Disjoint H K) (h' : Nat.card G = Nat.card H * Nat.card K) : K ≃* G ⧸ H := by
+def iso₁ : K ≃* G ⧸ H := by
 /- EXAMPLES:
   sorry
 SOLUTIONS: -/

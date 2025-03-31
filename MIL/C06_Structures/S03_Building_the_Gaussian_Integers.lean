@@ -71,7 +71,7 @@ Notice that here we are defining the interpretations of the notation ``0``,
 ``1``, ``+``, ``-``, and ``*`` directly, rather than naming them
 ``GaussInt.zero`` and the like and assigning the notation to those.
 It is often useful to have an explicit name for the definitions, for example,
-to use with ``simp`` and ``rewrite``.
+to use with ``simp`` and ``rw``.
 BOTH: -/
 -- QUOTE:
 theorem zero_def : (0 : GaussInt) = ⟨0, 0⟩ :=
@@ -241,7 +241,7 @@ function :math:`N : R \to \mathbb{N}` with the following two properties:
 
 - For every :math:`a` and :math:`b \ne 0` in :math:`R`, there are
   :math:`q` and :math:`r` in :math:`R` such that :math:`a = bq + r` and
-  either :math:`r = 0` or `N(r) < N(b)`.
+  either :math:`r = 0` or :math:`N(r) < N(b)`.
 - For every :math:`a` and :math:`b \ne 0`, :math:`N(a) \le N(ab)`.
 
 The ring of integers :math:`\Bbb{Z}` with :math:`N(a) = |a|` is an
@@ -288,7 +288,7 @@ implies that every irreducible element is prime.
 The axioms for a Euclidean domain imply that one can write any nonzero element
 as a finite product of irreducible elements. They also imply that one can use
 the Euclidean algorithm to find a greatest common divisor of any two
-nonzero elements ``a`` and ``b``, i.e.~an element that is divisible by any
+nonzero elements ``a`` and ``b``, i.e. an element that is divisible by any
 other common divisor. This, in turn, implies that factorization
 into irreducible elements is unique up to multiplication by units.
 
@@ -301,7 +301,7 @@ we have :math:`N(xy) = N(x)N(y)`.
 To see that this definition of the norm makes the Gaussian integers a Euclidean
 domain, only the first property is challenging. Suppose
 we want to write :math:`a + bi = (c + di) q + r` for suitable :math:`q`
-and :math:`r`. Treating :math:`a + bi` and :math:`c + di` are complex
+and :math:`r`. Treating :math:`a + bi` and :math:`c + di` as complex
 numbers, carry out the division
 
 .. math::
@@ -346,9 +346,9 @@ See the file `GaussianInt.lean
 <https://github.com/leanprover-community/mathlib4/blob/master/Mathlib/NumberTheory/Zsqrtd/GaussianInt.lean>`_.
 
 Here we will instead carry out an argument that stays in the integers.
-This illustrates an choice one commonly faces when formalizing mathematics.
+This illustrates a choice one commonly faces when formalizing mathematics.
 Given an argument that requires concepts or machinery that is not already
-in the library, one has two choices: either formalizes the concepts or machinery
+in the library, one has two choices: either formalize the concepts and machinery
 needed, or adapt the argument to make use of concepts and machinery you
 already have.
 The first choice is generally a good investment of time when the results
@@ -390,7 +390,6 @@ theorem abs_mod'_le (a b : ℤ) (h : 0 < b) : |mod' a b| ≤ b / 2 := by
   have := Int.emod_lt_of_pos (a + b / 2) h
   have := Int.ediv_add_emod b 2
   have := Int.emod_lt_of_pos b zero_lt_two
-  revert this; intro this -- FIXME, this should not be needed
   linarith
 -- QUOTE.
 
@@ -523,7 +522,7 @@ instance : Div GaussInt :=
 Having defined ``x / y``, We define ``x % y`` to be the remainder,
 ``x - (x / y) * y``. As above, we record the definitions in the
 theorems ``div_def`` and
-``mod_def`` so that we can use them with ``simp`` and ``rewrite``.
+``mod_def`` so that we can use them with ``simp`` and ``rw``.
 BOTH: -/
 -- QUOTE:
 instance : Mod GaussInt :=
@@ -604,7 +603,7 @@ theorem natAbs_norm_mod_lt (x y : GaussInt) (hy : y ≠ 0) :
     (x % y).norm.natAbs < y.norm.natAbs := by
   apply Int.ofNat_lt.1
   simp only [Int.natCast_natAbs, abs_of_nonneg, norm_nonneg]
-  apply norm_mod_lt x hy
+  exact norm_mod_lt x hy
 -- QUOTE.
 
 /- TEXT:

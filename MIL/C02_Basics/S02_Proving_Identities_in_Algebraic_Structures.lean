@@ -81,11 +81,11 @@ end
 
 .. index:: namespace, open, command ; open
 
-Lean 提供了与编程语言类似的组织机制：当一个定义或定理 ``foo`` 被引入到 *命名空间* ``bar`` 中时，它的完整名称是 ``bar.foo``. 
-稍后的命令 ``open bar`` 会 *打开* 这个命名空间，这样我们就可以使用更短的名称 ``foo``. 
+Lean 提供了与编程语言类似的组织机制：当一个定义或定理 ``foo`` 被引入到 *命名空间* ``bar`` 中时，它的完整名称是 ``bar.foo``.
+稍后的命令 ``open bar`` 会 *打开* 这个命名空间，这样我们就可以使用更短的名称 ``foo``.
 为了避免由于名称冲突而产生的错误，在下一个示例中，我们将我们的库定理版本放在一个名为 ``MyRing`` 的新命名空间中。
 
-下一个示例显示，我们不需要环公理 ``add_zero`` 或 ``add_right_neg``，因为它们可以由其他公理推导出来。
+下一个示例显示，我们不需要环公理 ``add_zero`` 或 ``add_neg_cancel``，因为它们可以由其他公理推导出来。
 TEXT. -/
 -- QUOTE:
 namespace MyRing
@@ -93,7 +93,7 @@ variable {R : Type*} [Ring R]
 
 theorem add_zero (a : R) : a + 0 = a := by rw [add_comm, zero_add]
 
-theorem add_right_neg (a : R) : a + -a = 0 := by rw [add_comm, neg_add_cancel]
+theorem add_neg_cancel (a : R) : a + -a = 0 := by rw [add_comm, neg_add_cancel]
 
 #check MyRing.add_zero
 #check add_zero
@@ -129,7 +129,7 @@ theorem add_neg_cancel_right (a b : R) : a + b + -b = a := by
 
 -- SOLUTIONS:
 theorem add_neg_cancel_rightαα (a b : R) : a + b + -b = a := by
-  rw [add_assoc, add_right_neg, add_zero]
+  rw [add_assoc, add_neg_cancel, add_zero]
 
 /- TEXT:
 利用这些来证明以下定理：
@@ -161,9 +161,9 @@ theorem add_right_cancelαα {a b c : R} (h : a + b = c + b) : a = c := by
 在这种情况下，输入一些额外的字符并不困难，但如果我们想将 ``add_left_cancel`` 应用于更复杂的表达式，写起来将会很繁琐。
 在这种情况下，Lean 允许我们将参数标记为 *隐式的*，意味着它们应该被省略，并由其他方法推断出来，比如通过后续的参数和假设。
 在 ``{a b c : R}`` 中的花括号就是这样做的。
-因此，根据上面定理的陈述，正确的表达方式就是简单地写成 ``add_left_cancel h``. 
+因此，根据上面定理的陈述，正确的表达方式就是简单地写成 ``add_left_cancel h``.
 
-为了说明，让我们展示如何从环公理中推导出 ``a * 0 = 0``. 
+为了说明，让我们展示如何从环公理中推导出 ``a * 0 = 0``.
 TEXT. -/
 -- QUOTE:
 theorem mul_zero (a : R) : a * 0 = 0 := by
@@ -270,7 +270,7 @@ example (a b : ℝ) : a - b = a + -b := by
 /- TEXT:
 .. index:: rfl, reflexivity, tactics ; refl and reflexivity, definitional equality
 
-证明项 ``rfl`` 是“自反性”的简写。将它作为 ``a - b = a + -b`` 的证明，迫使 Lean 展开定义并识别出两边相同。 
+证明项 ``rfl`` 是“自反性”的简写。将它作为 ``a - b = a + -b`` 的证明，迫使 Lean 展开定义并识别出两边相同。
 ``rfl`` 策略也是如此。这是 Lean 底层逻辑中已知的一种*定义等式*的实例。这意味着不仅可以使用 ``sub_eq_add_neg`` 进行重写，
 以替换 ``a - b = a + -b``，而且在某些上下文中，处理实数时，你可以互换等式的两边。例如，你现在有足够的信息来证明上一节中的定理 ``self_sub``：
 TEXT. -/
@@ -285,8 +285,8 @@ theorem self_sub (a : R) : a - a = 0 := by
 -- QUOTE.
 
 -- SOLUTIONS:
-theorem self_sub (a : R) : a - a = 0 := by
-  rw [sub_eq_add_neg, add_right_neg]
+theorem self_subαα (a : R) : a - a = 0 := by
+  rw [sub_eq_add_neg, add_neg_cancel]
 
 /- TEXT:
 展示你可以使用 ``rw`` 来证明这一点，但如果你将任意环 ``R`` 替换为实数，则还可以使用 ``apply`` 或 ``exact`` 来证明它。
@@ -379,8 +379,8 @@ end
 /- TEXT:
 .. index:: group (tactic), tactics ; group, tactics ; noncomm_ring, tactics ; abel
 
-显式调用这些引理会很繁琐，因此 Mathlib 提供了类似于 `ring` 的策略来涵盖大多数用例： 
+显式调用这些引理会很繁琐，因此 Mathlib 提供了类似于 `ring` 的策略来涵盖大多数用例：
 `group` 用于非交换的乘法群， `abel` 用于阿贝尔的加法群， `noncomm_ring` 用于非交换环。
-可能看起来有些奇怪，代数结构被称为 `Ring` 和 `CommRing`，而策略被命名为 `noncomm_ring` 和 `ring`. 
+可能看起来有些奇怪，代数结构被称为 `Ring` 和 `CommRing`，而策略被命名为 `noncomm_ring` 和 `ring`.
 这在一定程度上是出于历史原因，但也是为了方便使用更短的名称来表示处理交换环的策略，因为它使用得更频繁。
 TEXT. -/

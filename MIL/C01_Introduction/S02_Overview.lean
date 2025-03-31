@@ -98,9 +98,9 @@ example : ∀ m n : Nat, Even n → Even (m * n) := by
 /- TEXT:
 当你在 VS Code 中输入上述证明的每一行时，Lean 会在一个单独的窗口中显示 *证明状态*，告诉你已经建立了哪些事实，以及要证明你的定理还需要完成什么任务。
 你可以通过逐行逐步骤重放证明，因为Lean将继续显示光标所在点的证明状态。
-在这个例子中，你会看到证明的第一行引入了 ``m`` 和 ``n`` （此时可以重命名它们，如果我们想的话），并且将假设 ``Even n`` 分解为 ``k`` 和假设 ``n = 2 * k``. 
+在这个例子中，你会看到证明的第一行引入了 ``m`` 和 ``n`` （此时可以重命名它们，如果我们想的话），并且将假设 ``Even n`` 分解为 ``k`` 和假设 ``n = 2 * k``.
 第二行， ``use m * k``, 声明我们将通过证明 ``m * n = 2 * (m * k)`` 来证明 ``m * n`` 是偶数。
-下一行使用了 ``rewrite`` 策略在目标中将 ``n`` 替换为 ``2 * k``，得到的新目标 ``m * (2 * k) = 2 * (m * k)`` 最终被 ``ring`` 策略解决。
+下一行使用了 ``rw`` 策略（表示“重写”）在目标中将 ``n`` 替换为 ``2 * k``，得到的新目标 ``m * (2 * k) = 2 * (m * k)`` 最终被 ``ring`` 策略解决。
 
 逐步构建证明并获得增量反馈的能力非常强大。因此，策略证明通常比编写证明项更容易也更快。两者之间没有明显的区别：策略证明可以插入到证明项中，
 就像我们在上面的例子中使用短语 ``by rw [hk, mul_add]`` 一样。我们还将看到，反之，将一个简短的证明项插入到策略证明中通常也很有用。
@@ -147,13 +147,13 @@ Marc Huisinga,
 Benjamin Jones,
 Julian Külshammer,
 Victor Liu, Jimmy Lu,
-Martin C. Martin, Giovanni Mascellani, John McDowell, Isaiah Mindich, Hunter Monroe,
-Pietro Monticone,
-Oliver Nash, Emanuelle Natale,
+Martin C. Martin, Giovanni Mascellani, John McDowell, Joseph McKinsey, Bhavik Mehta, Isaiah Mindich,
+Kabelo Moiloa, Hunter Monroe, Pietro Monticone,
+Oliver Nash, Emanuelle Natale, Filippo A. E. Nuccio,
 Pim Otte,
 Bartosz Piotrowski,
 Nicolas Rolland, Keith Rush,
-Yannick Seurin, Guilherme Silva,
+Yannick Seurin, Guilherme Silva, Bernardo Subercaseaux,
 Pedro Sánchez Terraf, Matthew Toohey, Alistair Tucker,
 Floris van Doorn,
 Eric Wieser

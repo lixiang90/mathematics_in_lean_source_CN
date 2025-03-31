@@ -153,7 +153,7 @@ this will be an infimum construction. Let us do the case of two submonoids.
 BOTH: -/
 
 -- QUOTE:
-instance [Monoid M] : Inf (Submonoid₁ M) :=
+instance [Monoid M] : Min (Submonoid₁ M) :=
   ⟨fun S₁ S₂ ↦
     { carrier := S₁ ∩ S₂
       one_mem := ⟨S₁.one_mem, S₂.one_mem⟩
@@ -216,7 +216,7 @@ instance [CommMonoid M] : HasQuotient M (Submonoid M) where
 def QuotientMonoid.mk [CommMonoid M] (N : Submonoid M) : M → M ⧸ N := Quotient.mk N.Setoid
 
 instance [CommMonoid M] (N : Submonoid M) : Monoid (M ⧸ N) where
-  mul := Quotient.map₂' (· * ·) (by
+  mul := Quotient.map₂ (· * ·) (by
 /- EXAMPLES:
       sorry
 SOLUTIONS: -/

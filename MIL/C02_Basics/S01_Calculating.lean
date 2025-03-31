@@ -10,7 +10,7 @@ import Mathlib.Data.Real.Basic
 .. index:: rewrite, rw, tactics ; rw and rewrite
 
 在Lean中，陈述一个定理等同于陈述一个目标，即证明该定理的目标。Lean 提供了重写策略 ``rw``，用于在目标中将等式的左侧替换为右侧。
-如果 ``a``、 ``b`` 和 ``c`` 是实数，那么 ``mul_assoc a b c`` 是等式 ``a * b * c = a * (b * c)``, 
+如果 ``a``、 ``b`` 和 ``c`` 是实数，那么 ``mul_assoc a b c`` 是等式 ``a * b * c = a * (b * c)``,
 而 ``mul_comm a b`` 是等式 ``a * b = b * a``. Lean 提供了自动化工具，通常可以消除精确引用这类事实的必要性，但它们对于说明的目的很有用。
 在Lean中，乘法左结合，因此 ``mul_assoc`` 的左侧也可以写成 ``(a * b) * c``. 然而，通常要注意Lean的记号约定，好的风格是在Lean省略括号时也这样做。
 
@@ -28,9 +28,9 @@ example (a b c : ℝ) : a * b * c = b * (a * c) := by
 /- TEXT:
 在相关示例文件的开头的 ``import`` 行从 Mathlib 中导入了实数理论，以及有用的自动化功能。出于简洁起见，我们通常在教科书中删除此类信息。
 
-欢迎你进行更改以观察发生了什么。你可以在 VS Code 中将 ``ℝ`` 字符输入为 ``\R`` 或 ``\real``. 
+欢迎你进行更改以观察发生了什么。你可以在 VS Code 中将 ``ℝ`` 字符输入为 ``\R`` 或 ``\real``.
 该符号直到你按下空格键或制表符键才会出现。当阅读 Lean 文件时，如果你将光标悬停在一个符号上，VS Code 将显示用于输入该符号的语法。
-如果你想查看所有可用的缩写，可以按下 Ctrl-Shift-P，然后输入abbreviations来访问 ``Lean 4: Show all abbreviations`` 命令。
+如果你想查看所有可用的缩写，可以按下 Ctrl-Shift-P，然后输入abbreviations来访问 ``Lean 4: Show Unicode Input Abbreviations`` 命令。
 如果您的键盘上没有方便使用的反斜杠，可以通过更改 ``lean4.input.leader`` 设置来改变前导字符。
 
 .. index:: proof state, local context, goal
@@ -51,12 +51,12 @@ example (a b c : ℝ) : a * b * c = b * (a * c) := by
 在这个例子中，它们包括两个对象， ``x`` 和 ``y``，每个都是自然数。
 它们还包括三个假设，标记为 ``h₁``、 ``h₂`` 和 ``h₃``.
 在Lean中，上下文中的所有内容都用标识符标记。你可以将这些带下标的标签键入为 ``h\1``、``h\2`` 和 ``h\3``,
-但任何合法的标识符都可以：你可以使用 ``h1``、 ``h2``、 ``h3``，或者 ``foo``、 ``bar`` 和 ``baz``. 
+但任何合法的标识符都可以：你可以使用 ``h1``、 ``h2``、 ``h3``，或者 ``foo``、 ``bar`` 和 ``baz``.
 最后一行代表 *目标(goal)*，即要证明的事实。有时人们使用 *目的(target)* 表示要证明的事实，使用 *目标(goal)* 表示上下文和目的(target)的组合。在实践中，意图通常是明确的。
 
 尝试证明这些等式，在每种情况下都将 ``sorry`` 替换为策略证明。
 使用 ``rw`` 策略时，你可以使用左箭头（``\l``）来反转一个等式。
-例如，``rw [← mul_assoc a b c]`` 在当前目标中将 ``a * (b * c)`` 替换为 ``a * b * c``. 
+例如，``rw [← mul_assoc a b c]`` 在当前目标中将 ``a * (b * c)`` 替换为 ``a * b * c``.
 请注意，左箭头指的是从右向左在 ``mul_assoc`` 提供的等式中进行，与目标的左侧或右侧无关。
 TEXT. -/
 -- Try these.
@@ -91,7 +91,7 @@ example (a b c : ℝ) : a * b * c = b * c * a := by
 -- QUOTE.
 
 /- TEXT:
-你还可以提供 *部分* 信息。例如， ``mul_comm a`` 匹配任何形式为 ``a * ?`` 的模式，并将其重写为 ``? * a``. 
+你还可以提供 *部分* 信息。例如， ``mul_comm a`` 匹配任何形式为 ``a * ?`` 的模式，并将其重写为 ``? * a``.
 尝试在不提供任何参数的情况下完成第一个示例，只使用一个参数完成第二个示例。
 TEXT. -/
 /- Try doing the first of these without providing any arguments at all,
@@ -194,12 +194,12 @@ end
 -- QUOTE.
 
 /- TEXT:
-``#check`` 命令适用于对象和事实。对于命令 ``#check a``，Lean 报告 ``a`` 的类型为 ``ℝ``. 
+``#check`` 命令适用于对象和事实。对于命令 ``#check a``，Lean 报告 ``a`` 的类型为 ``ℝ``.
 对于命令 ``#check mul_comm a b``，Lean 报告 ``mul_comm a b`` 是一个证明了事实 ``a * b = b * a`` 的证明。
 命令 ``#check (a : ℝ)`` 表示我们期望 ``a`` 的类型是 ``ℝ``，如果不是这样，Lean 将会抛出错误。
 我们将在后面解释最后三个 ``#check`` 命令的输出，但在这之前，你可以查看它们，并实验自己的一些  ``#check`` 命令。
 
-让我们尝试一些更多的示例。定理 ``two_mul a`` 表明 ``2 * a = a + a``. 
+让我们尝试一些更多的示例。定理 ``two_mul a`` 表明 ``2 * a = a + a``.
 定理 ``add_mul`` 和 ``mul_add`` 表达了乘法对加法的分配性质，而定理 ``add_assoc`` 表达了加法的结合性。使用 ``#check`` 命令查看准确的表述。
 
 .. index:: calc, tactics ; calc
@@ -281,7 +281,7 @@ end
 /- TEXT:
 .. index:: rw, tactics ; rw and rewrite
 
-我们还可以在上下文的假设中进行重写。例如， ``rw [mul_comm a b] at hyp`` 将在假设 ``hyp`` 中将 ``a * b`` 替换为 ``b * a``. 
+我们还可以在上下文的假设中进行重写。例如， ``rw [mul_comm a b] at hyp`` 将在假设 ``hyp`` 中将 ``a * b`` 替换为 ``b * a``.
 TEXT. -/
 -- Examples.
 
@@ -329,7 +329,7 @@ end
 可以使用命令 ``import Mathlib.Tactic`` 明确导入它。我们将会看到，有一些类似的策略适用于其他常见类型的代数结构。
 
 还有一个名为 ``nth_rw`` 的 ``rw`` 的变体，它允许你仅替换目标中特定的表达式实例。
-可能的匹配项从 1 开始枚举，所以在下面的例子中， ``nth_rw 2 [h]`` 将用 ``c`` 替换第二个出现的 ``a + b``. 
+可能的匹配项从 1 开始枚举，所以在下面的例子中， ``nth_rw 2 [h]`` 将用 ``c`` 替换第二个出现的 ``a + b``.
 EXAMPLES: -/
 -- QUOTE:
 example (a b c : ℕ) (h : a + b = c) : (a + b) * (a + b) = a * c + b * c := by

@@ -181,16 +181,16 @@ open BigOperators
 open Finset
 
 -- EXAMPLES:
-example : s.sum f = ∑ x in s, f x :=
+example : s.sum f = ∑ x ∈ s, f x :=
   rfl
 
-example : s.prod f = ∏ x in s, f x :=
+example : s.prod f = ∏ x ∈ s, f x :=
   rfl
 
-example : (range n).sum f = ∑ x in range n, f x :=
+example : (range n).sum f = ∑ x ∈ range n, f x :=
   rfl
 
-example : (range n).prod f = ∏ x in range n, f x :=
+example : (range n).prod f = ∏ x ∈ range n, f x :=
   rfl
 -- QUOTE.
 
@@ -200,16 +200,16 @@ example : (range n).prod f = ∏ x in range n, f x :=
 乘积也类似。
 EXAMPLES: -/
 -- QUOTE:
-example (f : ℕ → ℕ) : ∑ x in range 0, f x = 0 :=
+example (f : ℕ → ℕ) : ∑ x ∈ range 0, f x = 0 :=
   Finset.sum_range_zero f
 
-example (f : ℕ → ℕ) (n : ℕ) : ∑ x in range n.succ, f x = ∑ x in range n, f x + f n :=
+example (f : ℕ → ℕ) (n : ℕ) : ∑ x ∈ range n.succ, f x = ∑ x ∈ range n, f x + f n :=
   Finset.sum_range_succ f n
 
-example (f : ℕ → ℕ) : ∏ x in range 0, f x = 1 :=
+example (f : ℕ → ℕ) : ∏ x ∈ range 0, f x = 1 :=
   Finset.prod_range_zero f
 
-example (f : ℕ → ℕ) (n : ℕ) : ∏ x in range n.succ, f x = (∏ x in range n, f x) * f n :=
+example (f : ℕ → ℕ) (n : ℕ) : ∏ x ∈ range n.succ, f x = (∏ x ∈ range n, f x) * f n :=
   Finset.prod_range_succ f n
 -- QUOTE.
 
@@ -220,7 +220,7 @@ example (f : ℕ → ℕ) (n : ℕ) : ∏ x in range n.succ, f x = (∏ x in ran
 下面把我们定义的阶乘函数表示为乘积。
 EXAMPLES: -/
 -- QUOTE:
-example (n : ℕ) : fac n = ∏ i in range n, (i + 1) := by
+example (n : ℕ) : fac n = ∏ i ∈ range n, (i + 1) := by
   induction' n with n ih
   · simp [fac, prod_range_zero]
   simp [fac, ih, prod_range_succ, mul_comm]
@@ -256,7 +256,7 @@ example (a b c d e f : ℕ) : a * (b * c * f * (d * e)) = d * (a * f * e) * (c *
 (尽可能避免在自然数上使用减法也同样有用）。
 EXAMPLES: -/
 -- QUOTE:
-theorem sum_id (n : ℕ) : ∑ i in range (n + 1), i = n * (n + 1) / 2 := by
+theorem sum_id (n : ℕ) : ∑ i ∈ range (n + 1), i = n * (n + 1) / 2 := by
   symm; apply Nat.div_eq_of_eq_mul_right (by norm_num : 0 < 2)
   induction' n with n ih
   · simp
@@ -269,7 +269,7 @@ theorem sum_id (n : ℕ) : ∑ i in range (n + 1), i = n * (n + 1) / 2 := by
 以及你可以在网上找到的其他等式。
 BOTH: -/
 -- QUOTE:
-theorem sum_sqr (n : ℕ) : ∑ i in range (n + 1), i ^ 2 = n * (n + 1) * (2 * n + 1) / 6 := by
+theorem sum_sqr (n : ℕ) : ∑ i ∈ range (n + 1), i ^ 2 = n * (n + 1) * (2 * n + 1) / 6 := by
 /- EXAMPLES:
   sorry
 SOLUTIONS: -/

@@ -200,8 +200,7 @@ example (ubf : FnHasUb f) (ubg : FnHasUb g) : FnHasUb fun x ↦ f x + g x := by
 /- TEXT:
 将第一条 ``obtain`` 指令看作是将 ``ubf`` 的 "内容" 与给定的模式匹配，
 并将成分赋值给具名变量。
-``rcases`` 和 ``obtain`` 可以说是在 ``destruct`` 它们的参数，但有一点不同，
-``rcases`` 在完成后会清除上下文中的 ``ubf``, 而在 ``obtain`` 后它仍然存在。
+``rcases`` 和 ``obtain`` 可以说是在 ``destruct`` 它们的参数。
 
 Lean 还支持与其他函数式编程语言类似的语法：
 TEXT. -/
@@ -351,7 +350,7 @@ end
 /- TEXT:
 .. index:: surjective function
 
-另一个重要的例子是，若函数 :math:`f : \alpha \to \beta` 满足对值域 :math:`\beta` 中任意的 :math:`y`, 存在定义域 :math:`\alpha` 中的 :math:`x`, 
+另一个重要的例子是，若函数 :math:`f : \alpha \to \beta` 满足对值域 :math:`\beta` 中任意的 :math:`y`, 存在定义域 :math:`\alpha` 中的 :math:`x`,
 使得 :math:`f(x) = y`,
 那么我们称这个函数是 *满射* 。
 注意到这个语句既包含全称量词，也包含存在量词，

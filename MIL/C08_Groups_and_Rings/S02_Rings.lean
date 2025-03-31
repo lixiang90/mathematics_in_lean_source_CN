@@ -3,7 +3,7 @@ import Mathlib.RingTheory.Ideal.Quotient.Operations
 import Mathlib.RingTheory.Localization.Basic
 import Mathlib.RingTheory.DedekindDomain.Ideal
 import Mathlib.Analysis.Complex.Polynomial.Basic
-import Mathlib.Data.ZMod.Quotient
+import Mathlib.Data.ZMod.QuotientRing
 import MIL.Common
 
 noncomputable section
@@ -102,7 +102,7 @@ be covered later in a chapter on linear algebra, but this implementation detail 
 safely ignored since most (but not all) relevant lemmas are restated in the special context of
 ideals. But anonymous projection notation won't always work as expected. For instance,
 one cannot replace ``Ideal.Quotient.mk I`` by ``I.Quotient.mk`` in the snippet below because there
-are two ``.``s and so it will parse as ``(Ideal.Quotient I).mk``; but ``Ideal.Quotient`` by itself
+are two ``.``\s and so it will parse as ``(Ideal.Quotient I).mk``; but ``Ideal.Quotient`` by itself
 doesn't exist.
 EXAMPLES: -/
 -- QUOTE:
@@ -588,7 +588,7 @@ Recall the ``![...]`` notation denotes elements of ``Fin n → X`` for some natu
 determined by the number of arguments and some type ``X`` determined by the type of arguments.
 EXAMPLES: -/
 -- QUOTE:
-example : MvPolynomial.eval ![0, 1] circleEquation = 0 := by simp [circleEquation]
+example : MvPolynomial.eval ![1, 0] circleEquation = 0 := by simp [circleEquation]
 -- QUOTE.
 
 end Polynomials
