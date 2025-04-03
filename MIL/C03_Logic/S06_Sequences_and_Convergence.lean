@@ -65,8 +65,6 @@ example (a b : ℝ) : |a| = |a - b + b| := by
 /- TEXT:
 在这里， ``congr`` 策略会剥离两边的 ``abs``,
 把 ``a = a - b + b`` 留给我们证明。
-Here the ``congr`` tactic peels off the ``abs`` on each side,
-leaving us to prove ``a = a - b + b``.
 
 .. index:: convert, tactics ; convert
 
