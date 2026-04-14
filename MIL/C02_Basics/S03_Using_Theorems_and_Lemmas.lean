@@ -229,6 +229,9 @@ example (h : a ≤ b) : log (1 + exp a) ≤ log (1 + exp b) := by
 
 * 你可以使用 Mathlib 的 API 文档，位于 Mathlib 的 `网页 <https://leanprover-community.github.io/mathlib4_docs/>`_ 上。
 
+* 你可以使用 `Loogle <https://loogle.lean-lang.org>`_
+  来通过模式搜索 Lean 和 Mathlib 的定义及定理。
+
 * 你可以依靠 Mathlib 命名约定和编辑器中的 Ctrl-space 自动完成来猜测定理名称（在 Mac 键盘上是 Cmd-space）。
   在 Lean 中，一个名为 ``A_of_B_of_C`` 的定理构建了形式为 ``A`` 的东西，其假设的形式为 ``B`` 和 ``C`` ，
   其中 ``A``、 ``B`` 和 ``C`` 近似于我们可能口头读出目标的方式。

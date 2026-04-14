@@ -360,7 +360,7 @@ SOLUTIONS: -/
 /- EXAMPLES:
   sorry
 SOLUTIONS: -/
-  apply Nat.dvd_sub' <;>
+  apply Nat.dvd_sub <;>
   apply Nat.dvd_mul_right
 -- BOTH:
 -- QUOTE.

@@ -149,7 +149,7 @@ SOLUTIONS: -/
 /- EXAMPLES:
     sorry
 SOLUTIONS: -/
-    convert Nat.dvd_sub' pdvd this
+    convert Nat.dvd_sub pdvd this
     simp
 -- BOTH:
   show False
@@ -377,7 +377,7 @@ SOLUTIONS: -/
     apply pp
 -- BOTH:
   have : p ∣ 1 := by
-    convert Nat.dvd_sub' pdvd this
+    convert Nat.dvd_sub pdvd this
     simp
   show False
 /- EXAMPLES:
@@ -611,7 +611,7 @@ SOLUTIONS: -/
 /- EXAMPLES:
     sorry
 SOLUTIONS: -/
-    convert Nat.dvd_sub' pdvd this
+    convert Nat.dvd_sub pdvd this
     simp
 -- BOTH:
   have : p = 3 := by

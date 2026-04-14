@@ -267,7 +267,7 @@ TEXT. -/
 -- BOTH:
 section
 -- QUOTE:
-variable {R : Type*} [StrictOrderedRing R]
+variable {R : Type*} [Ring R] [PartialOrder R] [IsStrictOrderedRing R]
 variable (a b c : R)
 
 -- EXAMPLES:
