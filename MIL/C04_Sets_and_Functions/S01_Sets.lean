@@ -74,7 +74,7 @@ Lean 不得不展开定义。
 TEXT. -/
 -- QUOTE:
 example (h : s ⊆ t) : s ∩ u ⊆ t ∩ u :=
-  fun x ⟨xs, xu⟩ ↦ ⟨h xs, xu⟩
+  fun _ ⟨xs, xu⟩ ↦ ⟨h xs, xu⟩
 -- QUOTE.
 
 /- TEXT:
@@ -193,7 +193,7 @@ example : s ∩ t = t ∩ s := by
 TEXT. -/
 -- QUOTE:
 example : s ∩ t = t ∩ s :=
-  Set.ext fun x ↦ ⟨fun ⟨xs, xt⟩ ↦ ⟨xt, xs⟩, fun ⟨xt, xs⟩ ↦ ⟨xs, xt⟩⟩
+  Set.ext fun _ ↦ ⟨fun ⟨xs, xt⟩ ↦ ⟨xt, xs⟩, fun ⟨xt, xs⟩ ↦ ⟨xs, xt⟩⟩
 -- QUOTE.
 
 /- TEXT:
@@ -223,7 +223,7 @@ example : s ∩ t = t ∩ s :=
     Subset.antisymm sorry sorry
 SOLUTIONS: -/
     Subset.antisymm
-    (fun x ⟨xs, xt⟩ ↦ ⟨xt, xs⟩) fun x ⟨xt, xs⟩ ↦ ⟨xs, xt⟩
+    (fun _ ⟨xs, xt⟩ ↦ ⟨xt, xs⟩) fun _ ⟨xt, xs⟩ ↦ ⟨xs, xt⟩
 -- QUOTE.
 
 -- BOTH:
@@ -374,7 +374,7 @@ example : { n | Nat.Prime n } ∩ { n | n > 2 } ⊆ { n | ¬Even n } := by
   rcases Nat.Prime.eq_two_or_odd nprime with h | h
   · rw [h]
     linarith
-  rw rw [Nat.odd_iff, h]
+  rw [Nat.odd_iff, h]
 
 /- TEXT:
 请注意：有点令人困惑的是，库中有多个版本的谓词 ``Prime``.
