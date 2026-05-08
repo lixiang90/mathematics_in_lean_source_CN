@@ -278,7 +278,7 @@ SOLUTIONS: -/
 我们考虑两种情况，取决于 :math:`g(y)` 是否在 :math:`A` 中。
 若是，则它不会在最外层的环 :math:`S_0` 中，
 因为根据定义，这个环和 :math:`g` 的像不相交。
-因此存在 :math:`n` 使得 `g(y)` 是 :math:`S_{n+1}` 的元素。
+因此存在 :math:`n` 使得 :math:`g(y)` 是 :math:`S_{n+1}` 的元素。
 这意味着它形如 :math:`g(f(x))`,
 其中 :math:`x` 在 :math:`S_n` 中。
 由 :math:`g` 的单射性，我们有 :math:`f(x) = y`.

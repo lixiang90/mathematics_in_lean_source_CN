@@ -87,7 +87,7 @@ example (n : ℕ) : fac (n + 1) = (n + 1) * fac n := by
 /- TEXT:
 阶乘函数实际上已经在 Mathlib 中被定义为 ``Nat.factorial``.
 再次提醒，你可以通过输入 ``#check Nat.factorial`` 并使用 ``ctrl-click`` 跳转到它。
-出于说明目的，我们会在示例中继续使用 ``fac``.
+出于演示目的，我们会在示例中继续使用 ``fac``.
 ``Nat.factorial`` 的定义前面的标注 ``@[simp]``
 要求定义等式应被添加到化简器默认使用的恒等式数据库中。
 
