@@ -93,7 +93,7 @@ the diagonal and halving the result shows us that the cardinality of the triangl
 :math:`n (n + 1) / 2`.
 
 Alternatively, we note that the rows of the triangle have sizes :math:`0, 1, \ldots, n`, so the
-cardinality is the sum of the first :math:`n` natural numbers. The first ``have`` of the proof
+cardinality is the sum of the first :math:`n` positive integers. The first ``have`` of the proof
 below describes the triangle as the union of the rows, where row :math:`j` consists of
 the numbers :math:`0, 1, ..., j - 1` paired with :math:`j`.
 In the proof below, the notation ``(., j)`` abbreviates the function
@@ -142,13 +142,13 @@ example (n : ℕ) : #(triangle n) = (n + 1) * n / 2 := by
   have : triangle n ≃ Σ i : Fin (n + 1), Fin i.val :=
     { toFun := by
         rintro ⟨⟨i, j⟩, hp⟩
-        simp [triangle] at hp
-        exact ⟨⟨j, hp.1.2⟩, ⟨i, hp.2⟩⟩
+        have : (i ≤ n ∧ j ≤ n) ∧ i < j := by simpa [triangle] using hp
+        exact ⟨⟨j, by linarith⟩, ⟨i, by linarith⟩⟩
       invFun := by
         rintro ⟨i, j⟩
         use ⟨j, i⟩
-        simp [triangle]
-        exact j.isLt.trans i.isLt
+        suffices j ≤ n ∧ i ≤ n by simpa [triangle]
+        constructor <;> linarith [i.2, j.2]
       left_inv := by intro i; rfl
       right_inv := by intro i; rfl }
   rw [←Fintype.card_coe]
@@ -236,7 +236,7 @@ example (n : ℕ) : #(triangle' n) = #(triangle n) := by
       omega
     . simp; omega
   rw [this, card_image_of_injOn]
-  rintro ⟨p1, p2⟩ hp ⟨q1, q2⟩ hq; simp [f] at *
+  rintro ⟨p1, p2⟩ hp ⟨q1, q2⟩ hq; simp [f]
 BOTH: -/
 -- QUOTE.
 
@@ -253,7 +253,7 @@ EXAMPLES: -/
 section
 -- QUOTE:
 open Classical
-variable (s t : Finset Nat) (a b : Nat)
+variable (s t : Finset ℕ) (a b : ℕ)
 
 theorem doubleCounting {α β : Type*} (s : Finset α) (t : Finset β)
     (r : α → β → Prop)
@@ -261,7 +261,7 @@ theorem doubleCounting {α β : Type*} (s : Finset α) (t : Finset β)
     (h_right : ∀ b ∈ t, #{a ∈ s | r a b} ≤ 1) :
     3 * #(s) ≤ #(t) := by
   calc 3 * #(s)
-      = ∑ a ∈ s, 3                               := by simp [sum_const_nat, mul_comm]
+      = ∑ a ∈ s, 3                               := by simp [mul_comm]
     _ ≤ ∑ a ∈ s, #({b ∈ t | r a b})              := sum_le_sum h_left
     _ = ∑ a ∈ s, ∑ b ∈ t, if r a b then 1 else 0 := by simp
     _ = ∑ b ∈ t, ∑ a ∈ s, if r a b then 1 else 0 := sum_comm
@@ -313,9 +313,8 @@ BOTH: -/
   sorry
 /- SOLUTIONS:
   rcases ht' with ⟨m, ⟨hm, hm'⟩, k, ⟨hk, hk'⟩, hmk⟩
+  use m, hm, k, hk
   have : m = k + 1 ∨ k = m + 1 := by omega
-  rcases this with rfl | rfl
-  . use k, hk, k+1, hm; simp
-  . use m, hm, m+1, hk; simp
+  rcases this with h | h <;> simp [h]
 BOTH: -/
 -- QUOTE.

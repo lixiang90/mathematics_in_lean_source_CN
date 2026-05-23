@@ -253,7 +253,7 @@ satisfy the following:
 EXAMPLES: -/
 -- QUOTE:
 example (a b : ℤ) : a = b * (a / b) + a % b :=
-  Eq.symm (Int.ediv_add_emod a b)
+  Eq.symm (Int.mul_ediv_add_emod a b)
 
 example (a b : ℤ) : b ≠ 0 → 0 ≤ a % b :=
   Int.emod_nonneg a
@@ -358,13 +358,14 @@ is more efficient.
 
 The usual quotient-remainder theorem for the integers says that for
 every :math:`a` and nonzero :math:`b`, there are :math:`q` and :math:`r`
-such that :math:`a = b q + r` and :math:`0 \le r < b`.
+such that :math:`a = b q + r` and :math:`0 \le r < |b|`.
 Here we will make use of the following variation, which says that there
 are :math:`q'` and :math:`r'` such that
-:math:`a = b q' + r'` and :math:`|r'| \le b/2`.
+:math:`a = b q' + r'` and :math:`|r'| \le |b|/2`.
 You can check that if the value of :math:`r` in the first statement
-satisfies :math:`r \le b/2`, we can take :math:`q' = q` and :math:`r' = r`,
-and otherwise we can take :math:`q' = q + 1` and :math:`r' = r - b`.
+satisfies :math:`r \le |b|/2`, we can take :math:`q' = q` and :math:`r' = r`,
+and otherwise we can take :math:`q' = q + 1` and :math:`r' = r - b`
+(for :math:`b` positive; otherwise mutatis mutandis).
 We are grateful to Heather Macbeth for suggesting the following more
 elegant approach, which avoids definition by cases.
 We simply add ``b / 2`` to ``a`` before dividing and then subtract it
@@ -381,14 +382,14 @@ def mod' (a b : ℤ) :=
 
 theorem div'_add_mod' (a b : ℤ) : b * div' a b + mod' a b = a := by
   rw [div', mod']
-  linarith [Int.ediv_add_emod (a + b / 2) b]
+  linarith [Int.mul_ediv_add_emod (a + b / 2) b]
 
 theorem abs_mod'_le (a b : ℤ) (h : 0 < b) : |mod' a b| ≤ b / 2 := by
   rw [mod', abs_le]
   constructor
   · linarith [Int.emod_nonneg (a + b / 2) h.ne']
   have := Int.emod_lt_of_pos (a + b / 2) h
-  have := Int.ediv_add_emod b 2
+  have := Int.mul_ediv_add_emod b 2
   have := Int.emod_lt_of_pos b zero_lt_two
   linarith
 -- QUOTE.
@@ -413,7 +414,7 @@ private theorem aux {α : Type*} [Ring α] [LinearOrder α] [IsStrictOrderedRing
     apply le_antisymm _ (sq_nonneg x)
     rw [← h]
     apply le_add_of_nonneg_right (sq_nonneg y)
-  pow_eq_zero h'
+  eq_zero_of_pow_eq_zero h'
 
 -- QUOTE:
 -- BOTH:
@@ -519,7 +520,7 @@ instance : Div GaussInt :=
 -- QUOTE.
 
 /- TEXT:
-Having defined ``x / y``, We define ``x % y`` to be the remainder,
+Having defined ``x / y``, we define ``x % y`` to be the remainder,
 ``x - (x / y) * y``. As above, we record the definitions in the
 theorems ``div_def`` and
 ``mod_def`` so that we can use them with ``simp`` and ``rw``.

@@ -146,17 +146,17 @@ TEXT. -/
 #check (log_le_log : 0 < a → a ≤ b → log a ≤ log b)
 #check (log_lt_log : 0 < a → a < b → log a < log b)
 #check (add_le_add : a ≤ b → c ≤ d → a + c ≤ b + d)
-#check (add_le_add_left : a ≤ b → ∀ c, c + a ≤ c + b)
-#check (add_le_add_right : a ≤ b → ∀ c, a + c ≤ b + c)
+#check (add_le_add_right : a ≤ b → ∀ c, c + a ≤ c + b)
+#check (add_le_add_left : a ≤ b → ∀ c, a + c ≤ b + c)
 #check (add_lt_add_of_le_of_lt : a ≤ b → c < d → a + c < b + d)
 #check (add_lt_add_of_lt_of_le : a < b → c ≤ d → a + c < b + d)
-#check (add_lt_add_left : a < b → ∀ c, c + a < c + b)
-#check (add_lt_add_right : a < b → ∀ c, a + c < b + c)
+#check (add_lt_add_right : a < b → ∀ c, c + a < c + b)
+#check (add_lt_add_left : a < b → ∀ c, a + c < b + c)
 #check (add_nonneg : 0 ≤ a → 0 ≤ b → 0 ≤ a + b)
 #check (add_pos : 0 < a → 0 < b → 0 < a + b)
 #check (add_pos_of_pos_of_nonneg : 0 < a → 0 ≤ b → 0 < a + b)
 #check (exp_pos : ∀ a, 0 < exp a)
-#check add_le_add_left
+#check add_le_add_right
 -- QUOTE.
 
 /- TEXT:
@@ -205,9 +205,9 @@ example (h : a ≤ b) : log (1 + exp a) ≤ log (1 + exp b) := by
 
 -- SOLUTIONS:
 example (h₀ : d ≤ e) : c + exp (a + d) ≤ c + exp (a + e) := by
-  apply add_le_add_left
+  apply add_le_add_right
   rw [exp_le_exp]
-  apply add_le_add_left h₀
+  apply add_le_add_right h₀
 
 -- an alternative using `linarith`.
 example (h₀ : d ≤ e) : c + exp (a + d) ≤ c + exp (a + e) := by
@@ -219,7 +219,7 @@ example (h₀ : d ≤ e) : c + exp (a + d) ≤ c + exp (a + e) := by
 example (h : a ≤ b) : log (1 + exp a) ≤ log (1 + exp b) := by
   have h₀ : 0 < 1 + exp a := by linarith [exp_pos a]
   apply log_le_log h₀
-  apply add_le_add_left (exp_le_exp.mpr h)
+  apply add_le_add_right (exp_le_exp.mpr h)
 
 -- SOLUTION.
 /- TEXT:
@@ -305,6 +305,7 @@ example : 2 * a * b ≤ a ^ 2 + b ^ 2 := by
 /- TEXT:
 多么美妙！我们向你提出挑战，使用这些想法来证明以下定理。你可以使用定理 ``abs_le'.mpr``.
 你还需要使用 ``constructor`` 策略将一个合取分解为两个目标；参见 :numref:`conjunction_and_biimplication`.
+
 TEXT. -/
 -- QUOTE:
 example : |a * b| ≤ (a ^ 2 + b ^ 2) / 2 := by

@@ -74,10 +74,11 @@ example (a b : ℝ) : |a| = |a - b + b| := by
 一种可能的方法是逆向工作，重写目标使其具有这种形式。
 相反， ``convert`` 策略原封不动地应用定理，
 而将证明匹配目标所需等式的任务留给了我们。
+
 TEXT. -/
 -- QUOTE:
 example {a : ℝ} (h : 1 < a) : a < a * a := by
-  convert (mul_lt_mul_right _).2 h
+  convert (mul_lt_mul_iff_left₀ _).2 h
   · rw [one_mul]
   exact lt_trans zero_lt_one h
 -- QUOTE.
@@ -90,7 +91,7 @@ example {a : ℝ} (h : 1 < a) : a < a * a := by
 下面证明任意常数序列 :math:`a, a, a, \ldots` 收敛。
 BOTH: -/
 -- QUOTE:
-theorem convergesTo_const (a : ℝ) : ConvergesTo (fun x : ℕ ↦ a) a := by
+theorem convergesTo_const (a : ℝ) : ConvergesTo (fun _x : ℕ ↦ a) a := by
   intro ε εpos
   use 0
   intro n nge
@@ -150,7 +151,7 @@ theorem convergesTo_addαα {s t : ℕ → ℝ} {a b : ℝ}
     |s n + t n - (a + b)| = |s n - a + (t n - b)| := by
       congr
       ring
-    _ ≤ |s n - a| + |t n - b| := (abs_add _ _)
+    _ ≤ |s n - a| + |t n - b| := (abs_add_le _ _)
     _ < ε / 2 + ε / 2 := (add_lt_add (hs n ngeNs) (ht n ngeNt))
     _ = ε := by norm_num
 
@@ -228,7 +229,7 @@ theorem exists_abs_le_of_convergesToαα {s : ℕ → ℝ} {a : ℝ} (cs : Conve
     |s n| = |s n - a + a| := by
       congr
       abel
-    _ ≤ |s n - a| + |a| := (abs_add _ _)
+    _ ≤ |s n - a| + |a| := (abs_add_le _ _)
     _ < |a| + 1 := by linarith [h n ngt]
 
 /- TEXT:
@@ -343,7 +344,7 @@ theorem convergesTo_uniqueαα {s : ℕ → ℝ} {a b : ℝ}
     |a - b| = |(-(s N - a)) + (s N - b)| := by
       congr
       ring
-    _ ≤ |(-(s N - a))| + |s N - b| := (abs_add _ _)
+    _ ≤ |(-(s N - a))| + |s N - b| := (abs_add_le _ _)
     _ = |s N - a| + |s N - b| := by rw [abs_neg]
     _ < ε + ε := (add_lt_add absa absb)
     _ = |a - b| := by norm_num [ε]

@@ -60,6 +60,7 @@ example (h : s ⊆ t) : s ∩ u ⊆ t ∩ u := by
 /- TEXT:
 在这个例子中，我们开启了 ``Set`` 名字空间以用更短的定理名访问定理。
 但事实上，我们可以完全删除 ``rw`` 和 ``simp`` 的调用：
+
 TEXT. -/
 -- QUOTE:
 example (h : s ⊆ t) : s ∩ u ⊆ t ∩ u := by
@@ -74,7 +75,8 @@ Lean 不得不展开定义。
 TEXT. -/
 -- QUOTE:
 example (h : s ⊆ t) : s ∩ u ⊆ t ∩ u :=
-  fun _ ⟨xs, xu⟩ ↦ ⟨h xs, xu⟩
+  fun _x ⟨xs, xu⟩ ↦ ⟨h xs, xu⟩
+
 -- QUOTE.
 
 /- TEXT:
@@ -193,7 +195,8 @@ example : s ∩ t = t ∩ s := by
 TEXT. -/
 -- QUOTE:
 example : s ∩ t = t ∩ s :=
-  Set.ext fun _ ↦ ⟨fun ⟨xs, xt⟩ ↦ ⟨xt, xs⟩, fun ⟨xt, xs⟩ ↦ ⟨xs, xt⟩⟩
+  Set.ext fun _x ↦ ⟨fun ⟨xs, xt⟩ ↦ ⟨xt, xs⟩, fun ⟨xt, xs⟩ ↦ ⟨xs, xt⟩⟩
+
 -- QUOTE.
 
 /- TEXT:
@@ -223,7 +226,8 @@ example : s ∩ t = t ∩ s :=
     Subset.antisymm sorry sorry
 SOLUTIONS: -/
     Subset.antisymm
-    (fun _ ⟨xs, xt⟩ ↦ ⟨xt, xs⟩) fun _ ⟨xt, xs⟩ ↦ ⟨xs, xt⟩
+    (fun _x ⟨xs, xt⟩ ↦ ⟨xt, xs⟩) fun _x ⟨xt, xs⟩ ↦ ⟨xs, xt⟩
+
 -- QUOTE.
 
 -- BOTH:
@@ -306,6 +310,7 @@ example : s \ t ∪ t \ s = (s ∪ t) \ (s ∩ t) := by
 这是有意义的：给定 ``a : α``,  ``P a`` 就是 ``P`` 对 ``a`` 成立这一命题。
 在库中， ``Set α`` 定义为 ``α → Prop`` 而 ``x ∈ s`` 定义为 ``s x``.
 换句话说，集合实际上就是性质，只是被当成对象。
+
 
 库中也定义了集合构造器的符号。
 表达式 ``{ y | P y }`` 展开就是 ``(fun y ↦ P y)``,

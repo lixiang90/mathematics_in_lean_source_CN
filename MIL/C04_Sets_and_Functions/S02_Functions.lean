@@ -203,7 +203,7 @@ example : f '' s \ f '' t ⊆ f '' (s \ t) := by
   · rfl
 
 example : f ⁻¹' u \ f ⁻¹' v ⊆ f ⁻¹' (u \ v) :=
-  fun x ↦ id
+  fun _x ↦ id
 
 example : f '' s ∩ v = f '' (s ∩ f ⁻¹' v) := by
   ext y; constructor
@@ -395,9 +395,7 @@ open Set Real
 
 -- EXAMPLES:
 example : InjOn log { x | x > 0 } := by
-  intro x xpos y ypos
-  intro e
-  -- log x = log y
+  intro x xpos y ypos e
   calc
     x = exp (log x) := by rw [exp_log xpos]
     _ = exp (log y) := by rw [e]
@@ -432,8 +430,7 @@ example : (range fun x ↦ x ^ 2) = { y : ℝ | y ≥ 0 } := by
 
 -- SOLUTIONS:
 example : InjOn sqrt { x | x ≥ 0 } := by
-  intro x xnonneg y ynonneg
-  intro e
+  intro x xnonneg y ynonneg e
   calc
     x = sqrt x ^ 2 := by rw [sq_sqrt xnonneg]
     _ = sqrt y ^ 2 := by rw [e]
@@ -441,8 +438,7 @@ example : InjOn sqrt { x | x ≥ 0 } := by
 
 
 example : InjOn (fun x ↦ x ^ 2) { x : ℝ | x ≥ 0 } := by
-  intro x xnonneg y ynonneg
-  intro e
+  intro x xnonneg y ynonneg e
   dsimp at *
   calc
     x = sqrt (x ^ 2) := by rw [sqrt_sq xnonneg]
@@ -600,7 +596,7 @@ example : Surjective f ↔ RightInverse (inverse f) f := by
   apply h
 
 example : Surjective f ↔ RightInverse (inverse f) f :=
-  ⟨fun h y ↦ inverse_spec _ (h _), fun h y ↦ ⟨inverse f y, h _⟩⟩
+  ⟨fun h _y ↦ inverse_spec _ (h _), fun h y ↦ ⟨inverse f y, h _⟩⟩
 
 -- BOTH:
 end

@@ -2,7 +2,7 @@
 import Mathlib.LinearAlgebra.Matrix.Determinant.Basic
 import Mathlib.LinearAlgebra.Eigenspace.Minpoly
 import Mathlib.LinearAlgebra.Charpoly.Basic
-import Mathlib.Data.Complex.FiniteDimensional
+import Mathlib.LinearAlgebra.Complex.FiniteDimensional
 
 import MIL.Common
 
@@ -25,7 +25,7 @@ of linear algebra in :math:`K^n` for some field :math:`K`.
 Here the main objects are vectors and matrices.
 For concrete vectors, one can use the ``![…]`` notation, where components are separated by commas.
 For concrete matrices we can use the ``!![…]`` notation, lines are separated by semi-colons
-and components of lines are separated by colons.
+and components of lines are separated by commas.
 When entries have a computable type such as ``ℕ`` or ``ℚ``, we can use
 the ``eval`` command to play with basic operations.
 
@@ -558,7 +558,7 @@ EXAMPLES: -/
 -- QUOTE:
 variable {ι : Type*} (B : Module.Basis ι K V)
 
-example [Finite ι] : FiniteDimensional K V := FiniteDimensional.of_fintype_basis B
+example [Finite ι] : FiniteDimensional K V := Module.Basis.finiteDimensional_of_finite B
 
 example [FiniteDimensional K V] : Finite ι :=
   (FiniteDimensional.fintypeBasisIndex B).finite

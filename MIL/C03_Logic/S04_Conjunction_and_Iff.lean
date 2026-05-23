@@ -144,11 +144,12 @@ example (x y : ℝ) : (∃ z : ℝ, x < z ∧ z < y) → x < y := by
   exact lt_trans xltz zlty
 
 example (x y : ℝ) : (∃ z : ℝ, x < z ∧ z < y) → x < y :=
-  fun ⟨z, xltz, zlty⟩ ↦ lt_trans xltz zlty
+  fun ⟨_z, xltz, zlty⟩ ↦ lt_trans xltz zlty
 -- QUOTE.
 
 /- TEXT:
 你也可以使用 ``use`` 策略：
+
 TEXT. -/
 -- QUOTE:
 example : ∃ x : ℝ, 2 < x ∧ x < 4 := by
@@ -168,6 +169,7 @@ example {x y : ℝ} : x ≤ y ∧ x ≠ y → x ≤ y ∧ ¬y ≤ x := by
 
 /- TEXT:
 在第一个例子中， ``constructor`` 命令后的分号告诉 Lean 对产生的全部两个目标使用 ``norm_num`` 策略。
+
 
 在 Lean 中， ``A ↔ B`` *并非* 定义为 ``(A → B) ∧ (B → A)``,
 但其实如果这样定义也无妨，
@@ -225,11 +227,12 @@ example {x y : ℝ} : x ≤ y ∧ ¬y ≤ x ↔ x ≤ y ∧ x ≠ y := by
 ``x^2 + y^2 = 0`` 当且仅当 ``x = 0`` 且 ``y = 0``.
 我们建议使用 ``linarith``, ``pow_two_nonneg`` 和 ``pow_eq_zero``
 证明一条辅助性的引理。
+
 TEXT. -/
 -- QUOTE:
 theorem aux {x y : ℝ} (h : x ^ 2 + y ^ 2 = 0) : x = 0 :=
   have h' : x ^ 2 = 0 := by sorry
-  pow_eq_zero h'
+  eq_zero_of_pow_eq_zero h'
 
 example (x y : ℝ) : x ^ 2 + y ^ 2 = 0 ↔ x = 0 ∧ y = 0 :=
   sorry
@@ -238,7 +241,7 @@ example (x y : ℝ) : x ^ 2 + y ^ 2 = 0 ↔ x = 0 ∧ y = 0 :=
 -- SOLUTIONS:
 theorem auxαα {x y : ℝ} (h : x ^ 2 + y ^ 2 = 0) : x = 0 :=
   have h' : x ^ 2 = 0 := by linarith [pow_two_nonneg x, pow_two_nonneg y]
-  pow_eq_zero h'
+  eq_zero_of_pow_eq_zero h'
 
 example (x y : ℝ) : x ^ 2 + y ^ 2 = 0 ↔ x = 0 ∧ y = 0 := by
   constructor
@@ -352,6 +355,7 @@ end
 但在这里，我们只依赖于这样一个事实：
 它会重复使用指定的引理，
 即使需要用不同的值将其实例化。
+
 TEXT. -/
 -- BOTH:
 section

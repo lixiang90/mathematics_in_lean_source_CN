@@ -57,6 +57,7 @@ theorem hard : FermatLastTheorem :=
 如果你设法构建了一个类型为 ``FermatLastTheorem`` 的表达式，并且Lean接受它作为该类型的项，那么你已经做了一些非常令人印象深刻的事情。
 （使用 ``sorry`` 是作弊，Lean知道这一点。）所以现在你知道了游戏目标。剩下要学习的只有规则了。
 
+
 这本书是一本与配套教程相辅相成的书，即 `Theorem Proving in Lean <https://leanprover.github.io/theorem_proving_in_lean4/>`_，
 它提供了对Lean的基础逻辑框架和核心语法更全面的介绍。 *Theorem Proving in Lean* 适用于那些在使用新洗碗机之前更喜欢从头到尾阅读用户手册的人。
 如果你是那种更喜欢先按下 *开始* 按钮，以后再弄清如何启用清洗锅底功能的人，那么从本书开始更合适，需要时随时可以回去参考 *Theorem Proving in Lean*.

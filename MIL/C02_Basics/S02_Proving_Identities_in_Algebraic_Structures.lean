@@ -204,6 +204,7 @@ theorem zero_mulαα (a : R) : 0 * a = 0 := by
 
 /- TEXT:
 到现在，你应该也能够在下一个练习中用证明替换每个 ``sorry``，仍然只使用我们在本节中建立的关于环的事实。
+
 TEXT. -/
 -- QUOTE:
 theorem neg_eq_of_add_eq_zero {a b : R} (h : a + b = 0) : -a = b := by

@@ -13,6 +13,7 @@ import MIL.Common
 Lean 底层允许我们声明 *归纳类型*，
 它是由一个给定的 *构造器* 列表归纳地生成的类型。
 在 Lean 中，自然数声明如下。
+
 OMIT: -/
 namespace hidden
 
@@ -31,6 +32,7 @@ end hidden
 和 ``succ : Nat → Nat`` 自由而归纳地生成的数据类型。
 当然，库中引入了记号 ``ℕ`` 和 ``0`` 以分别表示 ``nat`` 和 ``zero``.
 （数字被转化为二进制表示，但我们现在不必担心这些细节。）
+
 
 对于当代数学家来说，“自由”意味着类型
 ``Nat`` 有一个元素 ``zero`` 和一个单射后继函数
@@ -102,6 +104,7 @@ example (n : ℕ) : fac (n + 1) = (n + 1) * fac n := by
 ``0 < fac (n + 1)``.
 短语 ``with n ih`` 用于为变量和归纳假设命名，
 你可以为它们选择你想要的任何名字。
+
 EXAMPLES: -/
 -- QUOTE:
 theorem fac_pos (n : ℕ) : 0 < fac n := by
@@ -221,7 +224,7 @@ EXAMPLES: -/
 -- QUOTE:
 example (n : ℕ) : fac n = ∏ i ∈ range n, (i + 1) := by
   induction' n with n ih
-  · simp [fac, prod_range_zero]
+  · simp [fac]
   simp [fac, ih, prod_range_succ, mul_comm]
 -- QUOTE.
 
@@ -238,7 +241,7 @@ Lean 的化简器足够智能，
 EXAMPLES: -/
 -- QUOTE:
 example (a b c d e f : ℕ) : a * (b * c * f * (d * e)) = d * (a * f * e) * (c * b) := by
-  simp [mul_assoc, mul_comm, mul_left_comm]
+  simp [mul_comm, mul_left_comm]
 -- QUOTE.
 
 /- TEXT:
@@ -330,7 +333,7 @@ def add : MyNat → MyNat → MyNat
   | x, succ y => succ (add x y)
 
 def mul : MyNat → MyNat → MyNat
-  | x, zero => zero
+  | _, zero => zero
   | x, succ y => add (mul x y) x
 
 theorem zero_add (n : MyNat) : add zero n = n := by

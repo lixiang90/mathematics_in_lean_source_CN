@@ -78,6 +78,7 @@ example : x < |y| → x < y ∨ x < -y := by
 而第二种模式，也就是带竖线的那种，匹配包含 ``h₀`` *或* ``h₁`` 的数据。
 在这种情况下，因为两个目标分离，我们对两种情况可以使用同样的名字 ``h``.
 
+
 绝对值函数的定义是使得我们可以立即证明
 ``x ≥ 0`` 蕴含着 ``|x| = x``
 (这就是定理 ``abs_of_nonneg``)
@@ -147,7 +148,7 @@ theorem le_abs_self (x : ℝ) : x ≤ |x| := by
 theorem neg_le_abs_self (x : ℝ) : -x ≤ |x| := by
   sorry
 
-theorem abs_add (x y : ℝ) : |x + y| ≤ |x| + |y| := by
+theorem abs_add_le (x y : ℝ) : |x + y| ≤ |x| + |y| := by
   sorry
 -- QUOTE.
 
@@ -164,7 +165,7 @@ theorem neg_le_abs_selfαα (x : ℝ) : -x ≤ |x| := by
     linarith
   · rw [abs_of_neg h]
 
-theorem abs_addαα (x y : ℝ) : |x + y| ≤ |x| + |y| := by
+theorem abs_add_leαα (x y : ℝ) : |x + y| ≤ |x| + |y| := by
   rcases le_or_gt 0 (x + y) with h | h
   · rw [abs_of_nonneg h]
     linarith [le_abs_self x, le_abs_self y]
@@ -258,6 +259,7 @@ example {m n k : ℕ} (h : m ∣ n ∨ m ∣ k) : m ∣ n * k := by
 看看你是否能用长长的一行来证明下面的内容。
 使用 ``rcases`` 解包假设并分情况讨论，
 并使用分号和 ``linarith`` 解决每个分支。
+
 TEXT. -/
 -- QUOTE:
 example {z : ℝ} (h : ∃ x y, z = x ^ 2 + y ^ 2 ∨ z = x ^ 2 + y ^ 2 + 1) : z ≥ 0 := by

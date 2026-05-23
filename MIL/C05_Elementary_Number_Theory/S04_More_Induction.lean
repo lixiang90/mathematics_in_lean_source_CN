@@ -108,6 +108,7 @@ example (n : ℕ) : fib (n + 2) = fib n + fib (n + 1) := by rw [fib]
 黄金比例 ``φ`` 及其共轭 ``φ'`` 的显式公式。
 我们必须告诉 Lean，我们不期望我们的定义生成代码，因为
 实数上的算术运算是不可计算的。
+
 EXAMPLES: -/
 -- QUOTE:
 noncomputable section
@@ -115,16 +116,10 @@ noncomputable section
 def phi  : ℝ := (1 + √5) / 2
 def phi' : ℝ := (1 - √5) / 2
 
-theorem phi_sq : phi^2 = phi + 1 := by
-  field_simp [phi, add_sq]; ring
-
-theorem phi'_sq : phi'^2 = phi' + 1 := by
-  field_simp [phi', sub_sq]; ring
-
 theorem fib_eq : ∀ n, fib n = (phi^n - phi'^n) / √5
   | 0   => by simp
-  | 1   => by field_simp [phi, phi']
-  | n+2 => by field_simp [fib_eq, pow_add, phi_sq, phi'_sq]; ring
+  | 1   => by unfold fib; grind [phi, phi']
+  | n+2 => by unfold fib; simp; grind [fib_eq n, fib_eq (n+1), phi, phi']
 
 end
 -- QUOTE.
@@ -199,7 +194,7 @@ theorem fib_add (m n : ℕ) : fib (m + n + 1) = fib m * fib n + fib (m + 1) * fi
   | succ n ih =>
     specialize ih (m + 1)
     rw [add_assoc m 1 n, add_comm 1 n] at ih
-    simp only [fib_add_two, Nat.succ_eq_add_one, ih]
+    simp only [fib_add_two, ih]
     ring
 
 -- EXAMPLES:
@@ -208,7 +203,7 @@ theorem fib_add' : ∀ m n, fib (m + n + 1) = fib m * fib n + fib (m + 1) * fib 
   | m, n + 1 => by
     have := fib_add' (m + 1) n
     rw [add_assoc m 1 n, add_comm 1 n] at this
-    simp only [fib_add_two, Nat.succ_eq_add_one, this]
+    simp only [fib_add_two, this]
     ring
 -- QUOTE.
 
@@ -221,9 +216,15 @@ example (n : ℕ): (fib n) ^ 2 + (fib (n + 1)) ^ 2 = fib (2 * n + 1) := by sorry
 /- SOLUTIONS:
 example (n : ℕ): (fib n) ^ 2 + (fib (n + 1)) ^ 2 = fib (2 * n + 1) := by
   rw [two_mul, fib_add, pow_two, pow_two]
+
 BOTH: -/
+-- QUOTE:
 example (n : ℕ): (fib n) ^ 2 + (fib (n + 1)) ^ 2 = fib (2 * n + 1) := by
+/- EXAMPLES:
+  sorry
+SOLUTIONS: -/
   rw [two_mul, fib_add, pow_two, pow_two]
+-- QUOTE.
 
 /- TEXT:
 Lean 定义递归函数的机制足够灵活，允许任意的
@@ -233,6 +234,7 @@ Lean 定义递归函数的机制足够灵活，允许任意的
 利用了如果 ``n`` 非零且不是素数，它就有更小的因子这一事实。
 （你可以检查 Mathlib 在 ``Nat`` 命名空间中有一个同名的定理，
 不过它的证明与我们这里给出的不同。）
+
 EXAMPLES: -/
 -- QUOTE:
 #check (@Nat.not_prime_iff_exists_dvd_lt :
@@ -242,10 +244,10 @@ theorem ne_one_iff_exists_prime_dvd : ∀ {n}, n ≠ 1 ↔ ∃ p : ℕ, p.Prime 
   | 0 => by simpa using Exists.intro 2 Nat.prime_two
   | 1 => by simp [Nat.not_prime_one]
   | n + 2 => by
-    have hn : n+2 ≠ 1 := by omega
+    have hn : n + 2 ≠ 1 := by omega
     simp only [Ne, not_false_iff, true_iff, hn]
     by_cases h : Nat.Prime (n + 2)
-    · use n+2, h
+    · use n + 2, h
     · have : 2 ≤ n + 2 := by omega
       rw [Nat.not_prime_iff_exists_dvd_lt this] at h
       rcases h with ⟨m, mdvdn, mge2, -⟩

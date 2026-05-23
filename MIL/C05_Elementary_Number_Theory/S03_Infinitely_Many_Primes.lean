@@ -169,6 +169,7 @@ SOLUTIONS: -/
 素因子必须不同于各个 :math:`p_i`,
 这表明不存在包含全部素数的有限集。
 
+
 形式化这一论证要求我们对有限集进行推理。
 在 Lean 中，对于任意类型 ``α``, 类型 ``Finset α``
 表示类型为 ``α`` 的元素的有限集。
@@ -417,8 +418,7 @@ theorem ex_finset_of_bounded (Q : ℕ → Prop) [DecidablePred Q] :
   rintro ⟨n, hn⟩
   use (range (n + 1)).filter Q
   intro k
-  simp [Nat.lt_succ_iff]
-  exact hn k
+  simpa using hn k
 -- QUOTE.
 
 /- TEXT:

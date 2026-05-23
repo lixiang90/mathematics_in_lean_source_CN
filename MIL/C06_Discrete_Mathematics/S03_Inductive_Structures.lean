@@ -131,7 +131,7 @@ linear-time implementation.
 Try proving ``reverse (as ++ bs) = reverse bs ++ reverse as`` and
 ``reverse (reverse as) = as``.
 You can use ``cons_append`` and ``append_assoc``, but you
-You may need to come up with auxiliary lemmas and prove them.
+may need to come up with auxiliary lemmas and prove them.
 EXAMPLES: -/
 -- QUOTE:
 def reverseαα : List α → List α := sorry
@@ -183,7 +183,7 @@ def depth : BinTree → ℕ
 It is convenient to count the empty binary tree as a binary tree of size 0 and depth 0.
 In the literature, this data type is sometimes called the *extended binary trees*.
 Including the empty tree means, for example, that we can define the tree
-``node empty (node empty empty)`` consisting of a root node, and empty left subtree,
+``node empty (node empty empty)`` consisting of a root node, an empty left subtree,
 and a right subtree consisting of a single node.
 
 Here is an important inequality relating the size and the depth:
@@ -301,7 +301,7 @@ def eval : PropForm → (ℕ → Bool) → Bool
 /- TEXT:
 The next definition specifies the set of variables occurring in a formula, and the subsequent
 theorem shows that evaluating a formula on two truth assignments that agree on its variables
-yields that same value.
+yields the same value.
 BOTH: -/
 -- QUOTE:
 def vars : PropForm → Finset ℕ
@@ -314,7 +314,7 @@ def vars : PropForm → Finset ℕ
 -- EXAMPLES:
 theorem eval_eq_eval : ∀ (A : PropForm) (v1 v2 : ℕ → Bool),
     (∀ n ∈ A.vars, v1 n = v2 n) → A.eval v1 = A.eval v2
-  | var n, v1, v2, h    => by simp_all [vars, eval, h]
+  | var n, v1, v2, h    => by simp_all [vars, eval]
   | fls, v1, v2, h      => by simp_all [eval]
   | conj A B, v1, v2, h => by
       simp_all [vars, eval, eval_eq_eval A v1 v2, eval_eq_eval B v1 v2]

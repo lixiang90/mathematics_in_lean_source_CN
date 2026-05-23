@@ -318,6 +318,7 @@ example (h : ¬FnHasUb f) : ∀ a, ∃ x, f x > a := by
 为了方便地实现这一目标，Mathlib 提供了 ``push_neg`` 策略，
 以这种方式重述目标。
 命令 ``push_neg at h`` 重述假设 ``h``.
+
 TEXT. -/
 -- QUOTE:
 example (h : ¬∀ a, ∃ x, f x > a) : FnHasUb f := by
